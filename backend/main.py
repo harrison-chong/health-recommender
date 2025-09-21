@@ -1,0 +1,47 @@
+"""
+main.py
+Backend API for Health Recommender
+Uses FastAPI to serve endpoints for health data input and workout recommendations.
+"""
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+from typing import Optional
+
+app = FastAPI(title="Health Recommender API", description="API for health data input and workout recommendations.")
+
+class HealthData(BaseModel):
+    age: int = Field(..., description="User's age in years")
+    weight: float = Field(..., description="User's weight in kilograms")
+    height: float = Field(..., description="User's height in centimeters")
+    fitness_level: str = Field(..., description="User's self-assessed fitness level")
+    goals: Optional[str] = Field(None, description="User's health or fitness goals")
+
+class WorkoutRecommendation(BaseModel):
+    workout: str
+    rationale: str
+
+@app.post("/recommend", response_model=WorkoutRecommendation)
+async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
+    """
+    Recommend a workout based on user health data.
+    Args:
+        data (HealthData): User's health metrics and goals.
+    Returns:
+        WorkoutRecommendation: Recommended workout and rationale.
+    """
+    # Placeholder AI logic for recommendation
+    if data.fitness_level.lower() == "beginner":
+        workout = "30-minute brisk walk"
+        rationale = "Walking is safe and effective for beginners."
+    elif data.fitness_level.lower() == "intermediate":
+        workout = "20-minute jog + bodyweight exercises"
+        rationale = "Combines cardio and strength for balanced fitness."
+    else:
+        workout = "HIIT session + strength training"
+        rationale = "Advanced users benefit from intensity and variety."
+    return WorkoutRecommendation(workout=workout, rationale=rationale)
+
+@app.get("/ping")
+async def ping() -> dict:
+    """Health check endpoint."""
+    return {"status": "ok"}
