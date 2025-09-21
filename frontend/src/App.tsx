@@ -60,10 +60,39 @@ const App: React.FC = () => {
     }
   };
 
-  // Test message for React rendering
   return (
     <div style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
-      <h1>Hello from React!</h1>
+      <h1>Health Recommender</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Age:<br />
+          <input type="number" name="age" value={form.age} onChange={handleChange} required min={1} />
+        </label><br /><br />
+        <label>Weight (kg):<br />
+          <input type="number" name="weight" value={form.weight} onChange={handleChange} required min={1} />
+        </label><br /><br />
+        <label>Height (cm):<br />
+          <input type="number" name="height" value={form.height} onChange={handleChange} required min={1} />
+        </label><br /><br />
+        <label>Fitness Level:<br />
+          <select name="fitness_level" value={form.fitness_level} onChange={handleChange} required>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </label><br /><br />
+        <label>Goals:<br />
+          <input type="text" name="goals" value={form.goals} onChange={handleChange} placeholder="e.g. Lose weight, build muscle" />
+        </label><br /><br />
+        <button type="submit">Get Recommendation</button>
+      </form>
+      {recommendation && (
+        <div style={{ marginTop: 30, padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
+          <h2>Recommended Workout</h2>
+          <p><strong>Workout:</strong> {recommendation.workout}</p>
+          <p><strong>Rationale:</strong> {recommendation.rationale}</p>
+        </div>
+      )}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
