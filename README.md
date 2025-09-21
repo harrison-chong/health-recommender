@@ -2,7 +2,7 @@
 
 ## Overview
 
-A project written by derules and chong to learn about building an app. The goals of this project are to:
+A project to learn about building an app. The goals of this project are to:
 
 1. Building an ios app that tracks fitness progress using the Apple Watch workout functionality
 2. The app can import health data from Apple and extract key information for the user
