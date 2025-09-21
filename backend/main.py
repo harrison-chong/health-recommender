@@ -4,10 +4,19 @@ Backend API for Health Recommender
 Uses FastAPI to serve endpoints for health data input and workout recommendations.
 """
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional
 
 app = FastAPI(title="Health Recommender API", description="API for health data input and workout recommendations.")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 class HealthData(BaseModel):
     age: int = Field(..., description="User's age in years")
