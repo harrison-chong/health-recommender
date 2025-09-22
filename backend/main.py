@@ -57,7 +57,7 @@ async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
     return WorkoutRecommendation(workout=workout, rationale=rationale)
 
 
-@app.get("/ping")
-async def ping() -> dict:
+@app.get("/health")
+async def health_check() -> dict:
     """Health check endpoint."""
     return {"status": "ok"}
