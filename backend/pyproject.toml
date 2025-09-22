@@ -7,3 +7,9 @@ dependencies = [
     "fastapi[all]",
     "pydantic",
 ]
+
+[project.optional-dependencies]
+lint = [
+    "ruff>=0.13.1",
+]
+

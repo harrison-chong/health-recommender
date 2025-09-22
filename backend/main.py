@@ -1,22 +1,26 @@
 """
-main.py
 Backend API for Health Recommender
 Uses FastAPI to serve endpoints for health data input and workout recommendations.
 """
-from fastapi import FastAPI, HTTPException
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional
 
-app = FastAPI(title="Health Recommender API", description="API for health data input and workout recommendations.")
+app = FastAPI(
+    title="Health Recommender API",
+    description="API for health data input and workout recommendations.",
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=["http://localhost:3000"],  # only your frontend
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 class HealthData(BaseModel):
     age: int = Field(..., description="User's age in years")
@@ -25,9 +29,11 @@ class HealthData(BaseModel):
     fitness_level: str = Field(..., description="User's self-assessed fitness level")
     goals: Optional[str] = Field(None, description="User's health or fitness goals")
 
+
 class WorkoutRecommendation(BaseModel):
     workout: str
     rationale: str
+
 
 @app.post("/recommend", response_model=WorkoutRecommendation)
 async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
@@ -49,6 +55,7 @@ async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
         workout = "HIIT session + strength training"
         rationale = "Advanced users benefit from intensity and variety."
     return WorkoutRecommendation(workout=workout, rationale=rationale)
+
 
 @app.get("/ping")
 async def ping() -> dict:
