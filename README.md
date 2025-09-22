@@ -22,7 +22,14 @@ Backend
 
 You need to have [uv](https://docs.astral.sh/uv/getting-started/installation/) installed as well as [node.js](https://nodejs.org/en/download).
 
-In the root repository:
+Create environment variable file:
+```ps1
+cp backend/.env.example backend/.env
+```
+
+Add in your own API_KEY to the .env file.
+
+To run the frontend and backend, in the root repository:
 
 ```ps1
 start-dev.ps1
