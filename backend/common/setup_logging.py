@@ -7,5 +7,3 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-
-logger.info("Logging is set up.")
