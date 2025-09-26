@@ -14,7 +14,8 @@ def generate_recommendation(data: HealthData) -> str:
     """
     # Construct human metrics string
     goals = data.goals or "None"
-    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Gender: {data.gender}, Occupation: {data.occupation}, Average Sleep: {data.average_sleep_hours} hours, Body Fat: {data.body_fat_percentage}%, Goals: {goals}"
+    body_fat = f"{data.body_fat_percentage}%" if data.body_fat_percentage is not None else "Not provided"
+    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Gender: {data.gender}, Occupation: {data.occupation}, Average Sleep: {data.average_sleep_hours} hours, Body Fat: {body_fat}, Goals: {goals}"
 
     # Render template
     rendered_prompt = render_template(

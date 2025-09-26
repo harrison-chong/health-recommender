@@ -10,7 +10,7 @@ class HealthData(BaseModel):
     gender: str = Field(..., description="User's gender (e.g., male, female, other)")
     occupation: str = Field(..., description="User's occupation")
     average_sleep_hours: float = Field(..., description="Average sleep hours per night")
-    body_fat_percentage: float = Field(..., description="User's body fat percentage")
+    body_fat_percentage: Optional[float] = Field(None, description="User's body fat percentage")
     goals: Optional[str] = Field(None, description="User's health or fitness goals")
 
 
