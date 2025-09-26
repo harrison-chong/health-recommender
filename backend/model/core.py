@@ -1,5 +1,5 @@
 from common.api_types import HealthData
-from common.config import Config
+from common.config import config
 from common.client import client
 from common.utils import render_template
 
@@ -14,7 +14,7 @@ def generate_recommendation(data: HealthData) -> str:
     """
     # Construct human metrics string
     goals = data.goals or "None"
-    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Goals: {goals}"
+    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Gender: {data.gender}, Occupation: {data.occupation}, Average Sleep: {data.average_sleep_hours} hours, Body Fat: {data.body_fat_percentage}%, Goals: {goals}"
 
     # Render template
     rendered_prompt = render_template(
@@ -23,7 +23,7 @@ def generate_recommendation(data: HealthData) -> str:
 
     # Call OpenAI
     response = client.chat.completions.create(
-        model=Config.MODEL_NAME,
+        model=config.MODEL_NAME,
         messages=[{"role": "user", "content": rendered_prompt}],
     )
 
