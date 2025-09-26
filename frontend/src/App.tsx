@@ -16,8 +16,7 @@ interface HealthData {
  * WorkoutRecommendation interface defines the structure of the API response.
  */
 interface WorkoutRecommendation {
-  workout: string;
-  rationale: string;
+  workout_recommendation: string;
 }
 
 /**
@@ -88,8 +87,7 @@ const App: React.FC = () => {
       {recommendation && (
         <div style={{ marginTop: 30, padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
           <h2>Recommended Workout</h2>
-          <p><strong>Workout:</strong> {recommendation.workout}</p>
-          <p><strong>Rationale:</strong> {recommendation.rationale}</p>
+          <pre style={{ whiteSpace: 'pre-wrap', fontSize: '14px', backgroundColor: '#f9f9f9', padding: 10, borderRadius: 4 }}>{recommendation.workout_recommendation}</pre>
         </div>
       )}
       {error && <p style={{ color: 'red' }}>{error}</p>}
