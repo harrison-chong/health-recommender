@@ -30,7 +30,7 @@ async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
     Args:
         data (HealthData): User's health metrics and goals.
     Returns:
-        WorkoutRecommendation: Recommended workout as string.
+        WorkoutRecommendation: Recommended workout.
     """
     return get_recommendation(data)
 

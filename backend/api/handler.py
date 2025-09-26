@@ -8,7 +8,7 @@ def get_recommendation(data: HealthData) -> WorkoutRecommendation:
     Args:
         data (HealthData): User's health metrics and goals.
     Returns:
-        WorkoutRecommendation: Recommended workout and rationale.
+        WorkoutRecommendation: Recommended workout.
     """
     recommendation_text = generate_recommendation(data)
     return WorkoutRecommendation(
