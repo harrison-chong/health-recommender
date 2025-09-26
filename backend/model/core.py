@@ -1,5 +1,5 @@
 from common.api_types import HealthData
-from common.config import Config
+from common.config import config
 from common.client import client
 from common.utils import render_template
 
@@ -23,7 +23,7 @@ def generate_recommendation(data: HealthData) -> str:
 
     # Call OpenAI
     response = client.chat.completions.create(
-        model=Config.MODEL_NAME,
+        model=config.MODEL_NAME,
         messages=[{"role": "user", "content": rendered_prompt}],
     )
 
