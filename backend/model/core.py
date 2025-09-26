@@ -14,7 +14,7 @@ def generate_recommendation(data: HealthData) -> str:
     """
     # Construct human metrics string
     goals = data.goals or "None"
-    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Goals: {goals}"
+    human_metrics = f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, Fitness Level: {data.fitness_level}, Gender: {data.gender}, Occupation: {data.occupation}, Average Sleep: {data.average_sleep_hours} hours, Body Fat: {data.body_fat_percentage}%, Goals: {goals}"
 
     # Render template
     rendered_prompt = render_template(
