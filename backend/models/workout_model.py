@@ -38,7 +38,8 @@ class WorkoutModel(AbstractModel):
             f"Body Fat: {body_fat}, Goals: {goals}"
         )
 
-        # Render template
+        # Render template using the general utility function
+        # Provide the relative path to the template for loading from the prompts directory
         rendered_prompt = render_template(
             "prompts/recommender.jinja2", human_metrics=human_metrics
         )
