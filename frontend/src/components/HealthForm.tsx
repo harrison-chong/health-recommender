@@ -135,7 +135,7 @@ const HealthForm: React.FC = () => {
           error={isAgeInvalid()}
           helperText={isAgeInvalid() ? 'Age must be between 1 and 120' : ''}
           required
-          inputProps={{ min: 1, max: 120 }}
+          inputProps={{ min: 1, max: 120, onWheel: (e) => e.preventDefault() }}
           fullWidth
           variant="filled"
           InputLabelProps={{ shrink: true }}
@@ -150,7 +150,7 @@ const HealthForm: React.FC = () => {
           error={isWeightInvalid()}
           helperText={isWeightInvalid() ? 'Weight must be greater than 0 kg' : ''}
           required
-          inputProps={{ min: 40, max: 300 }}
+          inputProps={{ min: 40, max: 300, onWheel: (e) => e.preventDefault() }}
           fullWidth
           variant="filled"
           InputLabelProps={{ shrink: true }}
@@ -165,7 +165,7 @@ const HealthForm: React.FC = () => {
           error={isHeightInvalid()}
           helperText={isHeightInvalid() ? 'Height must be greater than 0 cm' : ''}
           required
-          inputProps={{ min: 100, max: 250 }}
+          inputProps={{ min: 100, max: 250, onWheel: (e) => e.preventDefault() }}
           fullWidth
           variant="filled"
           InputLabelProps={{ shrink: true }}
@@ -244,7 +244,7 @@ const HealthForm: React.FC = () => {
           error={isSleepInvalid()}
           helperText={isSleepInvalid() ? 'Sleep hours must be greater than 0 and less than or equal to 24' : ''}
           required
-          inputProps={{ min: 0, max: 24, step: 0.5 }}
+          inputProps={{ min: 0, max: 24, step: 0.5, onWheel: (e) => e.preventDefault() }}
           fullWidth
           variant="filled"
           InputLabelProps={{ shrink: true }}
@@ -259,7 +259,7 @@ const HealthForm: React.FC = () => {
           error={form.body_fat_percentage != null && (form.body_fat_percentage < 0 || form.body_fat_percentage > 100)}
           helperText={form.body_fat_percentage != null && (form.body_fat_percentage < 0 || form.body_fat_percentage > 100) ? 'Body fat must be between 0 and 100' : 'Optional'}
           placeholder="Optional"
-          inputProps={{ min: 0, max: 100, step: 0.1 }}
+          inputProps={{ min: 0, max: 100, step: 0.1, onWheel: (e) => e.preventDefault() }}
           fullWidth
           variant="filled"
           InputLabelProps={{ shrink: true }}
