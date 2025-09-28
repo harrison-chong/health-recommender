@@ -18,3 +18,14 @@ class HealthData(BaseModel):
 
 class WorkoutRecommendation(BaseModel):
     workout_recommendation: str
+
+
+class BMICalculationInput(BaseModel):
+    """Input for BMI calculation."""
+    weight: float = Field(..., gt=0, description="Weight in kilograms")
+    height: float = Field(..., gt=0, description="Height in centimeters")
+
+
+class BMIResponse(BaseModel):
+    """Response for BMI calculation."""
+    bmi: float = Field(..., description="Calculated BMI value")
