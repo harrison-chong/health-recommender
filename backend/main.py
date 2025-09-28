@@ -1,17 +1,16 @@
 """
 Backend API for Health Recommender
-Uses FastAPI to serve endpoints for health data input and workout recommendations.
+Uses FastAPI to serve endpoints for Health Recommender Application.
 """
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from common.api_types import HealthData, WorkoutRecommendation
-from api.handler import get_recommendation
+from routers.workout import router as workout_router
 
 app = FastAPI(
     title="Health Recommender API",
-    description="API for health data input and workout recommendations.",
+    description="APIs for Health Recommender Application",
 )
 
 app.add_middleware(
@@ -23,16 +22,7 @@ app.add_middleware(
 )
 
 
-@app.post("/recommend", response_model=WorkoutRecommendation)
-async def recommend_workout(data: HealthData) -> WorkoutRecommendation:
-    """
-    Recommend a workout based on user health data.
-    Args:
-        data (HealthData): User's health metrics and goals.
-    Returns:
-        WorkoutRecommendation: Recommended workout.
-    """
-    return get_recommendation(data)
+app.include_router(workout_router)
 
 
 @app.get("/health")
