@@ -3,6 +3,7 @@ from typing import Optional
 
 
 class HealthData(BaseModel):
+    """Input model for user's health and fitness data."""
     age: int = Field(..., description="User's age in years")
     weight: float = Field(..., description="User's weight in kilograms")
     height: float = Field(..., description="User's height in centimeters")
@@ -17,13 +18,14 @@ class HealthData(BaseModel):
 
 
 class WorkoutRecommendation(BaseModel):
+    """Response model containing the workout recommendation."""
     workout_recommendation: str
 
 
 class BMICalculationInput(BaseModel):
     """Input for BMI calculation."""
     weight: float = Field(..., gt=0, description="Weight in kilograms")
-    height: float = Field(..., gt=0, description="Height in centimeters")
+    height: float = Field(..., gt=0, description="Height in centimetres")
 
 
 class BMIResponse(BaseModel):
