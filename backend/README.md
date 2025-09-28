@@ -36,9 +36,8 @@ This FastAPI backend follows a layered architecture for scalability: routers (HT
    - Add: `app.include_router(nutrition_router)`
 
 5. **Test**:
-   - Run: `uv run uvicorn main:app --reload`
+   - Run: `uv run fastapi dev --port 8000 --reload `
    - Use `/docs` Swagger or curl: Verify input validation/response.
-   - Debug: Check imports in REPL (`python -c "from backend...; print('OK')"`).
 
 Add prompts to `prompts/`, update `pyproject.toml`/`uv lock` for new deps. Structure supports versioning (e.g., `/v1/nutrition`).
 
