@@ -6,6 +6,7 @@ Uses FastAPI to serve endpoints for Health Recommender Application.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from routers.bmi import router as bmi_router
 from routers.workout import router as workout_router
 
 app = FastAPI(
@@ -21,6 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+app.include_router(bmi_router)
 
 app.include_router(workout_router)
 
