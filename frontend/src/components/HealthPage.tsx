@@ -11,7 +11,7 @@ const HealthPage: React.FC = () => {
           Health Assessment
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 800, lineHeight: 1.6 }}>
-          Get personalized health recommendations based on your current status and goals.
+          Get personalised health recommendations based on your current status and goals.
           Use the tools below to calculate your BMI and receive workout recommendations.
         </Typography>
       </Box>
