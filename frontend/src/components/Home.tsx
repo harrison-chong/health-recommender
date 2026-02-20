@@ -46,7 +46,7 @@ const Home: React.FC = () => {
             </Typography>
 
             <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-              Your personal AI-powered health and fitness advisor. Get personalized workout
+              Your personal AI-powered health and fitness advisor. Get personalised workout
               recommendations and track your health metrics.
             </Typography>
 
