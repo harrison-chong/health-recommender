@@ -22,45 +22,10 @@ const Home: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        <Box
-          sx={{
-            mb: 6,
-          }}
-        >
-          <Typography
-            variant="h1"
-            component="h1"
-            sx={{
-              fontWeight: 300,
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              mb: 4,
-              color: 'text.primary',
-            }}
-          >
-            Health Recommender
-          </Typography>
-          <Typography
-            variant="body1"
-            color="text.secondary"
-            sx={{
-              fontSize: { xs: '1.125rem', md: '1.25rem' },
-              lineHeight: 1.6,
-              maxWidth: 600,
-              mx: 'auto',
-              mb: 6,
-            }}
-          >
-            Your personal AI-powered health and fitness advisor. Get personalized workout
-            recommendations and track your health metrics.
-          </Typography>
-        </Box>
-
         <Paper
           elevation={0}
           sx={{
-            p: 4,
+            p: { xs: 3, md: 5 },
             borderRadius: 4,
             border: '1px solid',
             borderColor: 'divider',
@@ -69,16 +34,32 @@ const Home: React.FC = () => {
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <AssessmentIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-              <Box>
-                <Typography variant="h6" sx={{ fontWeight: 500, mb: 0.5 }}>
-                  Personalized Assessments
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  BMI calculation and workout recommendations tailored to you
-                </Typography>
-              </Box>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 300,
+                letterSpacing: '-0.02em',
+                fontSize: { xs: '2rem', md: '2.5rem' },
+              }}
+            >
+              Welcome
+            </Typography>
+
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+              Your personal AI-powered health and fitness advisor. Get personalized workout
+              recommendations and track your health metrics.
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2,
+                py: 2,
+              }}
+            >
+              <AssessmentIcon sx={{ fontSize: 48, color: 'primary.main' }} />
             </Box>
 
             <Button
