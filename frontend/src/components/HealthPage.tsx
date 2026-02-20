@@ -1,73 +1,69 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Tabs,
-  Tab,
-  Typography,
-  Container
-} from '@mui/material';
-
+import React from 'react';
+import { Box, Typography, Container, Paper } from '@mui/material';
 import BMIForm from './BMIForm';
 import HealthForm from './HealthForm';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography component="div">{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 const HealthPage: React.FC = () => {
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography variant="h4" component="h1" align="center" sx={{ mb: 6, fontWeight: 300 }}>
-        Health Assessment
-      </Typography>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="health tabs" centered>
-            <Tab label="BMI Calculator" {...a11yProps(0)} />
-            <Tab label="Workout Recommender" {...a11yProps(1)} />
-          </Tabs>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 300, mb: 2 }}>
+          Health Assessment
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 800, lineHeight: 1.6 }}>
+          Get personalized health recommendations based on your current status and goals.
+          Use the tools below to calculate your BMI and receive workout recommendations.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 4,
+        }}
+      >
+        <Box
+          sx={{
+            flexBasis: { xs: '100%', md: 'calc(50% - 16px)' },
+            flexGrow: 1,
+          }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              border: '1px solid',
+              borderColor: 'divider',
+              height: '100%',
+              minHeight: 500,
+            }}
+          >
+            <BMIForm />
+          </Paper>
         </Box>
-        <TabPanel value={value} index={0}>
-          <BMIForm />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <HealthForm />
-        </TabPanel>
+
+        <Box
+          sx={{
+            flexBasis: { xs: '100%', md: 'calc(50% - 16px)' },
+            flexGrow: 1,
+          }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              border: '1px solid',
+              borderColor: 'divider',
+              height: '100%',
+              minHeight: 500,
+            }}
+          >
+            <HealthForm />
+          </Paper>
+        </Box>
       </Box>
     </Container>
   );
