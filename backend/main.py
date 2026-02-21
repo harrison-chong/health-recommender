@@ -8,6 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routers.bmi import router as bmi_router
 from routers.workout import router as workout_router
+from routers.bmr import router as bmr_router
+from routers.bodyfat import router as bodyfat_router
+from routers.macros import router as macros_router
 
 app = FastAPI(
     title="Health Recommender API",
@@ -26,6 +29,12 @@ app.add_middleware(
 app.include_router(bmi_router)
 
 app.include_router(workout_router)
+
+app.include_router(bmr_router)
+
+app.include_router(bodyfat_router)
+
+app.include_router(macros_router)
 
 
 @app.get("/health")
