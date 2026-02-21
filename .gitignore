@@ -16,7 +16,7 @@ venv/
 .env.*.local
 
 # Build outputs
-*/dist
+dist
 build
 *.egg-info
 
