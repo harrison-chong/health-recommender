@@ -111,18 +111,6 @@ const HealthForm: React.FC = () => {
     return true;
   };
 
-  const validateBMI = (): boolean => {
-    if (form.weight == null || form.weight <= 0) {
-      setError('Weight must be greater than 0 kg');
-      return false;
-    }
-    if (form.height == null || form.height <= 0) {
-      setError('Height must be greater than 0 cm');
-      return false;
-    }
-    return true;
-  };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (['age', 'weight', 'height', 'average_sleep_hours', 'body_fat_percentage', 'waist', 'neck', 'hip'].includes(name)) {
@@ -154,7 +142,7 @@ const HealthForm: React.FC = () => {
   const handleBmiCalculate = async () => {
     setError(null);
     setBmiResult(null);
-    if (!validateBMI()) return;
+    if (!validateCommonForm()) return;
 
     setLoadingBmi(true);
     try {
@@ -195,7 +183,7 @@ const HealthForm: React.FC = () => {
   const handleBodyFatCalculate = async () => {
     setError(null);
     setBodyFatResult(null);
-    if (!validateBMI()) return;
+    if (!validateCommonForm()) return;
     if (waist == null || waist <= 0) {
       setError('Waist measurement is required');
       return;
@@ -253,16 +241,10 @@ const HealthForm: React.FC = () => {
       }
     }
 
+    // At this point bmrResult is guaranteed to be set
     try {
-      const tdee = bmrResult ? bmrResult.tdee : (await axios.post<BMRResponse>(`${API_BASE}/bmr/`, {
-        age: form.age,
-        weight: form.weight,
-        height: form.height,
-        gender: form.gender,
-        activity_level: activityLevel
-      })).data.tdee;
       const response = await axios.post<MacrosResponse>(`${API_BASE}/macros/`, {
-        tdee,
+        tdee: bmrResult.tdee,
         goal: macrosGoal,
         diet_type: dietType
       });
