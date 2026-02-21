@@ -30,5 +30,6 @@ async def calculate_macros(data: MacrosInput) -> MacrosResponse:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise HTTPException(
-            status_code=500, detail="Internal server error during macronutrient calculation"
+            status_code=500,
+            detail="Internal server error during macronutrient calculation",
         )

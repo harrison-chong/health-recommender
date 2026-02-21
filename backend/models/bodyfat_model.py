@@ -57,7 +57,9 @@ class BodyFatModel(AbstractModel):
             if hip is None:
                 raise ValueError("Hip measurement is required for females")
             if waist + hip <= neck:
-                raise ValueError("Sum of waist and hip must be larger than neck for females")
+                raise ValueError(
+                    "Sum of waist and hip must be larger than neck for females"
+                )
             log_waist_hip_neck = math.log10(waist + hip - neck)
             log_height = math.log10(height)
             denominator = 1.29579 - 0.35004 * log_waist_hip_neck + 0.15400 * log_height

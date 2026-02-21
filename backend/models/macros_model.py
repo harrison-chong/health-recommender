@@ -46,7 +46,9 @@ class MacrosModel(AbstractModel):
         elif goal in self.GOAL_RATIOS:
             ratios = self.GOAL_RATIOS[goal]
         else:
-            raise ValueError(f"Invalid goal. Must be one of: {', '.join(self.GOAL_RATIOS.keys())}")
+            raise ValueError(
+                f"Invalid goal. Must be one of: {', '.join(self.GOAL_RATIOS.keys())}"
+            )
 
         # Calculate grams for each macronutrient
         protein_grams = (tdee * ratios["protein"]) / self.CALORIES_PER_GRAM["protein"]
@@ -70,26 +72,46 @@ class MacrosModel(AbstractModel):
             # Distribute the difference proportionally
             diff = tdee - actual_calories
             if diff > 0:
-                protein_grams += round(diff * ratios["protein"] / self.CALORIES_PER_GRAM["protein"])
-                carbs_grams += round(diff * ratios["carbs"] / self.CALORIES_PER_GRAM["carbs"])
-                fats_grams += round(diff * ratios["fats"] / self.CALORIES_PER_GRAM["fats"])
+                protein_grams += round(
+                    diff * ratios["protein"] / self.CALORIES_PER_GRAM["protein"]
+                )
+                carbs_grams += round(
+                    diff * ratios["carbs"] / self.CALORIES_PER_GRAM["carbs"]
+                )
+                fats_grams += round(
+                    diff * ratios["fats"] / self.CALORIES_PER_GRAM["fats"]
+                )
             else:
-                protein_grams -= round(abs(diff) * ratios["protein"] / self.CALORIES_PER_GRAM["protein"])
-                carbs_grams -= round(abs(diff) * ratios["carbs"] / self.CALORIES_PER_GRAM["carbs"])
-                fats_grams -= round(abs(diff) * ratios["fats"] / self.CALORIES_PER_GRAM["fats"])
+                protein_grams -= round(
+                    abs(diff) * ratios["protein"] / self.CALORIES_PER_GRAM["protein"]
+                )
+                carbs_grams -= round(
+                    abs(diff) * ratios["carbs"] / self.CALORIES_PER_GRAM["carbs"]
+                )
+                fats_grams -= round(
+                    abs(diff) * ratios["fats"] / self.CALORIES_PER_GRAM["fats"]
+                )
 
             # Recalculate actual calories
             actual_calories = (
-                (protein_grams if protein_grams > 0 else 0) * self.CALORIES_PER_GRAM["protein"]
-                + (carbs_grams if carbs_grams > 0 else 0) * self.CALORIES_PER_GRAM["carbs"]
+                (protein_grams if protein_grams > 0 else 0)
+                * self.CALORIES_PER_GRAM["protein"]
+                + (carbs_grams if carbs_grams > 0 else 0)
+                * self.CALORIES_PER_GRAM["carbs"]
                 + (fats_grams if fats_grams > 0 else 0) * self.CALORIES_PER_GRAM["fats"]
             )
 
         # Calculate percentages based on final values
         if actual_calories > 0:
-            protein_percentage = (protein_grams * self.CALORIES_PER_GRAM["protein"] / actual_calories) * 100
-            carbs_percentage = (carbs_grams * self.CALORIES_PER_GRAM["carbs"] / actual_calories) * 100
-            fats_percentage = (fats_grams * self.CALORIES_PER_GRAM["fats"] / actual_calories) * 100
+            protein_percentage = (
+                protein_grams * self.CALORIES_PER_GRAM["protein"] / actual_calories
+            ) * 100
+            carbs_percentage = (
+                carbs_grams * self.CALORIES_PER_GRAM["carbs"] / actual_calories
+            ) * 100
+            fats_percentage = (
+                fats_grams * self.CALORIES_PER_GRAM["fats"] / actual_calories
+            ) * 100
         else:
             protein_percentage = carbs_percentage = fats_percentage = 0
 
