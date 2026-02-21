@@ -13,4 +13,3 @@ dependencies = [
 lint = [
     "ruff>=0.13.1",
 ]
-
