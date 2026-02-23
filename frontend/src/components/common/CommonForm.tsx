@@ -1,10 +1,17 @@
 import React from 'react';
-import { Box, Grid, TextField, FormControl, InputLabel, Select, Typography, Divider, MenuItem } from '@mui/material';
-import { useHealthForm } from '../../hooks/useHealthForm';
+import { Box, TextField, FormControl, InputLabel, Select, Typography, Divider, MenuItem } from '@mui/material';
 import { ACTIVITY_LEVELS, GENDERS } from '../../config';
+import type { HealthData } from '../../types/health';
 
-const CommonForm: React.FC = () => {
-  const { form, activityLevel, handleChange, handleSelectChange, validateCommonForm } = useHealthForm();
+interface CommonFormProps {
+  form: HealthData;
+  activityLevel: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  handleSelectChange: (e: { target: { name: string; value: string } }) => void;
+  validateCommonForm: () => boolean;
+}
+
+const CommonForm: React.FC<CommonFormProps> = ({ form, activityLevel, handleChange, handleSelectChange, validateCommonForm }) => {
 
   const isValid = validateCommonForm();
 

@@ -59,6 +59,7 @@ export const CALCULATOR_TABS = [
   { id: 'bodyfat', label: 'Body Fat' },
   { id: 'macros', label: 'Macros' },
   { id: 'workout', label: 'Workout Recommender' },
+  { id: 'diet', label: 'Diet Recommender' },
 ] as const;
 
 export type CalculatorTab = (typeof CALCULATOR_TABS)[number]['id'];

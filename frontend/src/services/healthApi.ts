@@ -5,6 +5,7 @@ import type {
   BodyFatResponse,
   MacrosResponse,
   WorkoutRecommendation,
+  DietRecommendation,
   HealthData,
 } from '../types/health';
 
@@ -83,7 +84,15 @@ export const healthApi = {
   getWorkoutRecommendation: async (
     healthData: HealthData
   ): Promise<WorkoutRecommendation> => {
-    const response = await api.post<WorkoutRecommendation>('/recommend', healthData);
+    const response = await api.post<WorkoutRecommendation>('/workout/recommend', healthData);
+    return response.data;
+  },
+
+  // Diet recommendation
+  getDietRecommendation: async (
+    healthData: HealthData
+  ): Promise<DietRecommendation> => {
+    const response = await api.post<DietRecommendation>('/diet/recommend', healthData);
     return response.data;
   },
 };

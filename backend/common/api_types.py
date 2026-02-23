@@ -24,6 +24,12 @@ class WorkoutRecommendation(BaseModel):
     workout_recommendation: str
 
 
+class DietRecommendation(BaseModel):
+    """Response model containing the diet recommendation."""
+
+    diet_recommendation: str
+
+
 class BMICalculationInput(BaseModel):
     """Input for BMI calculation."""
 

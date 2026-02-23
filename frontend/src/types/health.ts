@@ -7,11 +7,11 @@ export interface HealthData {
   gender: string;
   occupation: string;
   average_sleep_hours: number | null;
-  body_fat_percentage?: number | null;
-  goals?: string;
-  waist?: number | null;
-  neck?: number | null;
-  hip?: number | null;
+  body_fat_percentage: number | null;
+  goals: string | null;
+  waist: number | null;
+  neck: number | null;
+  hip: number | null;
 }
 
 // BMI Response
@@ -48,6 +48,11 @@ export interface MacrosResponse {
 // Workout Recommendation
 export interface WorkoutRecommendation {
   workout_recommendation: string;
+}
+
+// Diet Recommendation
+export interface DietRecommendation {
+  diet_recommendation: string;
 }
 
 // Calculator state

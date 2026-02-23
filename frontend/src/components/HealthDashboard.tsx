@@ -1,30 +1,99 @@
 import React, { useState } from 'react';
-import { Box, Paper, Grid, Button, Typography } from '@mui/material';
+import { Box, Paper, Grid, Button } from '@mui/material';
 import CommonForm from './common/CommonForm';
 import BMICalculator from './calculators/BMICalculator';
 import BMRCalculator from './calculators/BMRCalculator';
 import BodyFatCalculator from './calculators/BodyFatCalculator';
 import MacrosCalculator from './calculators/MacrosCalculator';
 import WorkoutRecommender from './calculators/WorkoutRecommender';
+import DietRecommender from './calculators/DietRecommender';
 import { CALCULATOR_TABS, type CalculatorTab } from '../config';
+import { useHealthForm } from '../hooks/useHealthForm';
 
 const HealthDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<CalculatorTab>('bmi');
+  const healthForm = useHealthForm();
 
   const tabs = CALCULATOR_TABS;
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'bmi':
-        return <BMICalculator />;
+        return (
+          <BMICalculator
+            bmiState={healthForm.bmiState}
+            calculateBMI={healthForm.calculateBMI}
+            validateCommonForm={healthForm.validateCommonForm}
+          />
+        );
       case 'bmr':
-        return <BMRCalculator />;
+        return (
+          <BMRCalculator
+            bmrState={healthForm.bmrState}
+            activityLevel={healthForm.activityLevel}
+            calculateBMR={healthForm.calculateBMR}
+            validateCommonForm={healthForm.validateCommonForm}
+            hasBmrResult={healthForm.hasBmrResult}
+          />
+        );
       case 'bodyfat':
-        return <BodyFatCalculator />;
+        return (
+          <BodyFatCalculator
+            bodyFatState={healthForm.bodyFatState}
+            form={{
+              waist: healthForm.form.waist,
+              neck: healthForm.form.neck,
+              hip: healthForm.form.hip,
+              gender: healthForm.form.gender,
+            }}
+            handleChange={healthForm.handleChange}
+            calculateBodyFat={healthForm.calculateBodyFat}
+            validateCommonForm={healthForm.validateCommonForm}
+          />
+        );
       case 'macros':
-        return <MacrosCalculator />;
+        return (
+          <MacrosCalculator
+            macrosState={healthForm.macrosState}
+            calculateMacros={healthForm.calculateMacros}
+            hasBmrResult={healthForm.hasBmrResult}
+            macrosGoal={healthForm.macrosGoal}
+            dietType={healthForm.dietType}
+            handleSelectChange={healthForm.handleSelectChange}
+          />
+        );
       case 'workout':
-        return <WorkoutRecommender />;
+        return (
+          <WorkoutRecommender
+            workoutState={healthForm.workoutState}
+            form={{
+              fitness_level: healthForm.form.fitness_level,
+              occupation: healthForm.form.occupation,
+              average_sleep_hours: healthForm.form.average_sleep_hours,
+              goals: healthForm.form.goals,
+            }}
+            handleChange={healthForm.handleChange}
+            validateCommonForm={healthForm.validateCommonForm}
+            getWorkoutRecommendation={healthForm.getWorkoutRecommendation}
+            copyWorkoutRecommendation={healthForm.copyWorkoutRecommendation}
+          />
+        );
+      case 'diet':
+        return (
+          <DietRecommender
+            dietState={healthForm.dietState}
+            form={{
+              fitness_level: healthForm.form.fitness_level,
+              occupation: healthForm.form.occupation,
+              average_sleep_hours: healthForm.form.average_sleep_hours,
+              goals: healthForm.form.goals,
+            }}
+            handleChange={healthForm.handleChange}
+            validateCommonForm={healthForm.validateCommonForm}
+            getDietRecommendation={healthForm.getDietRecommendation}
+            copyDietRecommendation={healthForm.copyDietRecommendation}
+          />
+        );
       default:
         return null;
     }
@@ -62,7 +131,13 @@ const HealthDashboard: React.FC = () => {
         </Box>
 
         <Box sx={{ p: 4 }}>
-          <CommonForm />
+          <CommonForm
+            form={healthForm.form}
+            activityLevel={healthForm.activityLevel}
+            handleChange={healthForm.handleChange}
+            handleSelectChange={healthForm.handleSelectChange}
+            validateCommonForm={healthForm.validateCommonForm}
+          />
           {renderTabContent()}
         </Box>
       </Paper>

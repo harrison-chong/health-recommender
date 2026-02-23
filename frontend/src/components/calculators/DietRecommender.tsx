@@ -3,8 +3,8 @@ import { Button, CircularProgress, Paper, Typography, Box, Grid, TextField, Menu
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ReactMarkdown from 'react-markdown';
 
-interface WorkoutRecommenderProps {
-  workoutState: { result: { workout_recommendation: string } | null; loading: boolean; error: string | null };
+interface DietRecommenderProps {
+  dietState: { result: { diet_recommendation: string } | null; loading: boolean; error: string | null };
   form: {
     fitness_level: string;
     occupation: string;
@@ -13,17 +13,17 @@ interface WorkoutRecommenderProps {
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   validateCommonForm: () => boolean;
-  getWorkoutRecommendation: (e: FormEvent) => Promise<void>;
-  copyWorkoutRecommendation: () => Promise<void>;
+  getDietRecommendation: (e: FormEvent) => Promise<void>;
+  copyDietRecommendation: () => Promise<void>;
 }
 
-const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, form, handleChange, validateCommonForm, getWorkoutRecommendation, copyWorkoutRecommendation }) => {
+const DietRecommender: React.FC<DietRecommenderProps> = ({ dietState, form, handleChange, validateCommonForm, getDietRecommendation, copyDietRecommendation }) => {
   const isValid = validateCommonForm();
 
   return (
-    <Box component="form" onSubmit={getWorkoutRecommendation}>
+    <Box component="form" onSubmit={getDietRecommendation}>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        The workout recommender analyses your fitness level, occupation activity, sleep patterns, and goals to generate a personalised exercise plan.
+        The diet recommender analyses your fitness level, occupation activity, sleep patterns, and goals to generate a personalised nutrition plan.
       </Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, sm: 6 }}>
@@ -75,11 +75,11 @@ const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, f
           <TextField
             fullWidth
             size="small"
-            label="Your Fitness Goals"
+            label="Your Health & Nutrition Goals"
             name="goals"
             value={form.goals ?? ''}
             onChange={handleChange}
-            placeholder="e.g. Lose 10kg, build muscle, improve endurance, train for marathon"
+            placeholder="e.g. Lose weight, build muscle, improve energy, manage stress"
             multiline
             rows={2}
             helperText="Be specific about what you want to achieve"
@@ -88,18 +88,18 @@ const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, f
       </Grid>
       <Button
         variant="contained"
-        onClick={getWorkoutRecommendation}
-        disabled={workoutState.loading || !isValid}
+        onClick={getDietRecommendation}
+        disabled={dietState.loading || !isValid}
         fullWidth
         size="large"
         sx={{ mb: 3 }}
       >
-        {workoutState.loading ? <CircularProgress size={24} /> : 'Get Workout Recommendation'}
+        {dietState.loading ? <CircularProgress size={24} /> : 'Get Diet Recommendation'}
       </Button>
-      {workoutState.result && (
+      {dietState.result && (
         <Paper elevation={0} sx={{ p: 3, bgcolor: 'background.default', borderRadius: 2 }}>
           <Typography variant="h3" color="text.secondary" gutterBottom>
-            Your Personalised Workout Plan
+            Your Personalised Diet Plan
           </Typography>
           <Box sx={{ maxHeight: 400, overflow: 'auto', p: 3, bgcolor: 'mode', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
             <ReactMarkdown
@@ -117,13 +117,13 @@ const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, f
                 pre: ({ children, ...props }) => <Box component="pre" sx={{ backgroundColor: 'rgba(0,0,0,0.05)', p: 2, borderRadius: 2, overflowX: 'auto', mb: 2 }} {...props as any}>{children}</Box>
               }}
             >
-              {workoutState.result.workout_recommendation}
+              {dietState.result.diet_recommendation}
             </ReactMarkdown>
           </Box>
           <Button
             variant="outlined"
             size="small"
-            onClick={copyWorkoutRecommendation}
+            onClick={copyDietRecommendation}
             endIcon={<ContentCopy />}
             sx={{ textTransform: 'none', display: 'block', mx: 'auto' }}
           >
@@ -135,4 +135,4 @@ const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, f
   );
 };
 
-export default WorkoutRecommender;
+export default DietRecommender;

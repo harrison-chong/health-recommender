@@ -1,11 +1,17 @@
 import React from 'react';
 import { Button, CircularProgress, Paper, Typography, Box, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useHealthForm } from '../../hooks/useHealthForm';
 import { MACROS_GOALS, DIET_TYPES } from '../../config';
 
-const MacrosCalculator: React.FC = () => {
-  const { macrosState, macrosGoal, dietType, calculateMacros, handleSelectChange, hasBmrResult } = useHealthForm();
+interface MacrosCalculatorProps {
+  macrosState: { result: { calories: number; protein_grams: number; carbs_grams: number; fats_grams: number; protein_percentage: number; carbs_percentage: number; fats_percentage: number } | null; loading: boolean; error: string | null };
+  macrosGoal: string;
+  dietType: string;
+  calculateMacros: () => Promise<void>;
+  handleSelectChange: (e: { target: { name: string; value: string } }) => void;
+  hasBmrResult: boolean;
+}
 
+const MacrosCalculator: React.FC<MacrosCalculatorProps> = ({ macrosState, macrosGoal, dietType, calculateMacros, handleSelectChange }) => {
   return (
     <Box>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

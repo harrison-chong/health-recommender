@@ -1,18 +1,22 @@
 import React from 'react';
 import { Button, CircularProgress, Paper, Typography, Box, Grid, TextField } from '@mui/material';
-import { useHealthForm } from '../../hooks/useHealthForm';
 
-const BodyFatCalculator: React.FC = () => {
-  const { bodyFatState, calculateBodyFat, form, handleChange, validateCommonForm } = useHealthForm();
+interface BodyFatCalculatorProps {
+  bodyFatState: { result: { body_fat_percentage: number; category: string } | null; loading: boolean; error: string | null };
+  form: {
+    waist: number | null;
+    neck: number | null;
+    hip: number | null;
+    gender: string;
+  };
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  calculateBodyFat: () => Promise<void>;
+  validateCommonForm: () => boolean;
+}
 
-  // Destructure the measurement fields from form
-  const { waist, neck, hip } = form;
+const BodyFatCalculator: React.FC<BodyFatCalculatorProps> = ({ bodyFatState, form, handleChange, calculateBodyFat, validateCommonForm }) => {
+  const { waist, neck, hip, gender } = form;
   
-  // Helper to get values with non-null assertion after validation
-  const waistValue = waist!;
-  const neckValue = neck!;
-  const hipValue = hip!;
-
   const isValid = validateCommonForm();
 
   return (
@@ -25,7 +29,7 @@ const BodyFatCalculator: React.FC = () => {
           label="Waist circumference"
           name="waist"
           type="number"
-          value={form.waist ?? ''}
+          value={waist ?? ''}
           onChange={handleChange}
           fullWidth
           size="small"
@@ -37,7 +41,7 @@ const BodyFatCalculator: React.FC = () => {
           label="Neck circumference"
           name="neck"
           type="number"
-          value={form.neck ?? ''}
+          value={neck ?? ''}
           onChange={handleChange}
           fullWidth
           size="small"
@@ -49,15 +53,15 @@ const BodyFatCalculator: React.FC = () => {
           label="Hip circumference"
           name="hip"
           type="number"
-          value={form.hip ?? ''}
+          value={hip ?? ''}
           onChange={handleChange}
           fullWidth
           size="small"
           placeholder="Measured at widest point"
-          helperText={form.gender === 'female' ? 'Required for females (cm)' : 'Not used for males (cm)'}
-          disabled={form.gender === 'male'}
+          helperText={gender === 'female' ? 'Required for females (cm)' : 'Not used for males (cm)'}
+          disabled={gender === 'male'}
           InputProps={{
-            style: { opacity: form.gender === 'male' ? 0.5 : 1 }
+            style: { opacity: gender === 'male' ? 0.5 : 1 }
           }}
           inputProps={{ min: 50, max: 200 }}
         />
