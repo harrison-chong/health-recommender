@@ -1,5 +1,3 @@
-from typing import Optional
-
 from common.api_types import HealthData
 from common.config import config
 from common.client import client
@@ -25,7 +23,7 @@ class DietModel(AbstractModel):
             str: AI-generated recommendation string.
         """
         # Construct human metrics string
-        goals: Optional[str] = data.goals or "None"
+        goals: str | None = data.goals or "None"
         body_fat = (
             f"{data.body_fat_percentage}%"
             if data.body_fat_percentage is not None

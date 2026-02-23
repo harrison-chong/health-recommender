@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-from typing import Optional
 
 
 class HealthData(BaseModel):
@@ -12,10 +11,10 @@ class HealthData(BaseModel):
     gender: str = Field(..., description="User's gender (e.g., male, female, other)")
     occupation: str = Field(..., description="User's occupation")
     average_sleep_hours: float = Field(..., description="Average sleep hours per night")
-    body_fat_percentage: Optional[float] = Field(
+    body_fat_percentage: float | None = Field(
         None, description="User's body fat percentage"
     )
-    goals: Optional[str] = Field(None, description="User's health or fitness goals")
+    goals: str | None = Field(None, description="User's health or fitness goals")
 
 
 class WorkoutRecommendation(BaseModel):
@@ -76,7 +75,7 @@ class BodyFatInput(BaseModel):
     height: float = Field(..., gt=0, description="Height in centimeters")
     waist: float = Field(..., gt=0, description="Waist circumference in cm")
     neck: float = Field(..., gt=0, description="Neck circumference in cm")
-    hip: Optional[float] = Field(
+    hip: float | None = Field(
         None, ge=0, description="Hip circumference in cm (required for females)"
     )
 
@@ -101,7 +100,7 @@ class MacrosInput(BaseModel):
     goal: str = Field(
         ..., description="Goal: 'lose_weight', 'maintain', 'build_muscle'"
     )
-    diet_type: Optional[str] = Field(
+    diet_type: str | None = Field(
         None,
         description="Diet type: 'standard', 'keto', 'paleo', 'vegetarian', 'vegan' (default: standard)",
     )
