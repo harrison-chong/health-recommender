@@ -121,13 +121,25 @@ const WorkoutRecommender: React.FC<WorkoutRecommenderProps> = ({ workoutState, f
             </ReactMarkdown>
           </Box>
           <Button
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={copyWorkoutRecommendation}
-            endIcon={<ContentCopy />}
-            sx={{ textTransform: 'none', display: 'block', mx: 'auto' }}
+            startIcon={<ContentCopy />}
+            sx={{
+              mt: 3,
+              textTransform: 'none',
+              display: 'flex',
+              mx: 'auto',
+              bgcolor: 'primary.main',
+              '&:hover': {
+                bgcolor: 'primary.dark',
+              },
+              px: 3,
+              py: 1,
+              borderRadius: 2,
+            }}
           >
-            Copy to Clipboard
+            Copy to clipboard
           </Button>
         </Paper>
       )}
