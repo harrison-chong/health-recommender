@@ -17,6 +17,7 @@ import {
   Chip,
   Divider
 } from '@mui/material';
+import { useTheme } from '../contexts/ThemeContext';
 import RecommendationCard from './RecommendationCard';
 
 interface HealthData {
@@ -65,6 +66,7 @@ interface MacrosResponse {
 type CalculatorTab = 'bmi' | 'bmr' | 'bodyfat' | 'macros' | 'workout';
 
 const HealthForm: React.FC = () => {
+  const { mode } = useTheme();
   const [form, setForm] = useState<HealthData>({
     age: 30,
     weight: 70,
@@ -244,10 +246,10 @@ const HealthForm: React.FC = () => {
     // At this point bmrResult is guaranteed to be set
     try {
       const response = await axios.post<MacrosResponse>(`${API_BASE}/macros/`, {
-        tdee: bmrResult.tdee,
-        goal: macrosGoal,
-        diet_type: dietType
-      });
+              tdee: bmrResult!.tdee,
+              goal: macrosGoal,
+              diet_type: dietType
+            });
       setMacrosResult(response.data);
     } catch (err: any) {
       setError('Failed to calculate macronutrients. Please try again.');
@@ -646,7 +648,7 @@ const HealthForm: React.FC = () => {
               {loadingWorkout ? <CircularProgress size={24} /> : 'Get Workout Recommendation'}
             </Button>
             {recommendation && (
-              <Paper elevation={0} sx={{ p: 3, bgcolor: 'background.default', borderRadius: 2 }}>
+              <Paper elevation={0} sx={{ p: 3, bgcolor: mode === 'light' ? '#ffffff' : '#1e1e1e', borderRadius: 2 }}>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   Your personalised workout plan
                 </Typography>
