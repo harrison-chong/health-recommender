@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { lightTheme, darkTheme } from '../theme';
+import { createLightTheme, createDarkTheme } from '../theme';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -17,14 +17,12 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Check for saved theme or system preference
   const [mode, setMode] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem('themeMode') as ThemeMode;
     if (saved === 'light' || saved === 'dark') {
       return saved;
     }
 
-    // Check system preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }
@@ -39,7 +37,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const theme = mode === 'light' ? lightTheme : darkTheme;
+  const theme = useMemo(() => {
+    return mode === 'light' ? createLightTheme() : createDarkTheme();
+  }, [mode]);
 
   return (
     <ThemeContext.Provider value={{ mode, toggleTheme }}>
