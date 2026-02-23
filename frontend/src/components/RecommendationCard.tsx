@@ -22,7 +22,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         <Typography variant="h4" sx={{ mb: 3, fontWeight: 300, color: 'text.primary' }}>
           Your Personalised Workout Plan
         </Typography>
-        <Box sx={{ maxHeight: 400, overflow: 'auto', p: 3, bgcolor: 'grey.50', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ maxHeight: 400, overflow: 'auto', p: 3, bgcolor: '#1e1e1e', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
           <ReactMarkdown
             components={{
               h1: ({ children, ...props }) => <Typography variant="h4" component="h1" sx={{ mb: 2, fontWeight: 600 }} {...props as any}>{children}</Typography>,
