@@ -98,11 +98,16 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={item.text}
-                  primaryTypographyProps={{
-                    fontWeight: isSelected ? 600 : 400,
-                    fontSize: '0.95rem',
-                  }}
+                  primary={
+                    <Typography
+                      sx={{
+                        fontWeight: isSelected ? 600 : 400,
+                        fontSize: '0.95rem',
+                      }}
+                    >
+                      {item.text}
+                    </Typography>
+                  }
                 />
               </ListItemButton>
             </ListItem>
