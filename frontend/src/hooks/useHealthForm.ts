@@ -1,5 +1,5 @@
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
-import type { HealthData, CalculatorState, CommonFormValues, BodyFatMeasurements, MacrosValues } from '../types/health';
+import type { HealthData, CalculatorState } from '../types/health';
 import { healthApi } from '../services/healthApi';
 
 export interface UseHealthFormReturn {
@@ -15,6 +15,7 @@ export interface UseHealthFormReturn {
   bodyFatState: CalculatorState<{ body_fat_percentage: number; category: string }>;
   macrosState: CalculatorState<{ calories: number; protein_grams: number; carbs_grams: number; fats_grams: number; protein_percentage: number; carbs_percentage: number; fats_percentage: number; goal: string; diet_type: string }>;
   workoutState: CalculatorState<{ workout_recommendation: string }>;
+  dietState: CalculatorState<{ diet_recommendation: string }>;
 
   // Error & loading
   error: string | null;
@@ -29,9 +30,11 @@ export interface UseHealthFormReturn {
   calculateBodyFat: () => Promise<void>;
   calculateMacros: () => Promise<void>;
   getWorkoutRecommendation: (e: FormEvent) => Promise<void>;
+  getDietRecommendation: (e: FormEvent) => Promise<void>;
   
   // Copy to clipboard
   copyWorkoutRecommendation: () => Promise<void>;
+  copyDietRecommendation: () => Promise<void>;
 
   // Validation
   validateCommonForm: () => boolean;
@@ -48,10 +51,11 @@ export const useHealthForm = (): UseHealthFormReturn => {
     gender: 'male',
     occupation: 'Office Worker',
     average_sleep_hours: 7.5,
-    goals: '',
+    goals: null,
     waist: null,
     neck: null,
     hip: null,
+    body_fat_percentage: null,
   });
 
   const [activityLevel, setActivityLevel] = useState<string>('moderate');
@@ -64,6 +68,7 @@ export const useHealthForm = (): UseHealthFormReturn => {
   const [bodyFatState, setBodyFatState] = useState<CalculatorState<{ body_fat_percentage: number; category: string }>>({ result: null, loading: false, error: null });
   const [macrosState, setMacrosState] = useState<CalculatorState<{ calories: number; protein_grams: number; carbs_grams: number; fats_grams: number; protein_percentage: number; carbs_percentage: number; fats_percentage: number; goal: string; diet_type: string }>>({ result: null, loading: false, error: null });
   const [workoutState, setWorkoutState] = useState<CalculatorState<{ workout_recommendation: string }>>({ result: null, loading: false, error: null });
+  const [dietState, setDietState] = useState<CalculatorState<{ diet_recommendation: string }>>({ result: null, loading: false, error: null });
 
   const [error, setError] = useState<string | null>(null);
 
@@ -243,6 +248,35 @@ export const useHealthForm = (): UseHealthFormReturn => {
 
   const hasBmrResult = bmrState.result !== null;
 
+  const getDietRecommendation = useCallback(async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setDietState({ result: null, loading: true, error: null });
+    if (!validateCommonForm()) {
+      setDietState(prev => ({ ...prev, loading: false }));
+      return;
+    }
+
+    try {
+      const result = await healthApi.getDietRecommendation(form);
+      setDietState({ result, loading: false, error: null });
+    } catch (err) {
+      setDietState({ result: null, loading: false, error: 'Failed to get diet recommendation' });
+      setError('Failed to get diet recommendation. Please try again.');
+    }
+  }, [form, validateCommonForm]);
+
+  const copyDietRecommendation = useCallback(async () => {
+    if (dietState.result) {
+      try {
+        await navigator.clipboard.writeText(dietState.result.diet_recommendation);
+      } catch (err) {
+        console.error('Failed to copy to clipboard: ', err);
+        setError('Failed to copy to clipboard. Please manually copy.');
+      }
+    }
+  }, [dietState.result]);
+
   return {
     form,
     activityLevel,
@@ -253,6 +287,7 @@ export const useHealthForm = (): UseHealthFormReturn => {
     bodyFatState,
     macrosState,
     workoutState,
+    dietState,
     error,
     handleChange,
     handleSelectChange,
@@ -261,7 +296,9 @@ export const useHealthForm = (): UseHealthFormReturn => {
     calculateBodyFat,
     calculateMacros,
     getWorkoutRecommendation,
+    getDietRecommendation,
     copyWorkoutRecommendation,
+    copyDietRecommendation,
     validateCommonForm,
     hasBmrResult,
   };

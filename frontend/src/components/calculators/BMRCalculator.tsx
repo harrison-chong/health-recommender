@@ -1,10 +1,15 @@
 import React from 'react';
 import { Button, CircularProgress, Paper, Typography, Box, Chip, Grid } from '@mui/material';
-import { useHealthForm } from '../../hooks/useHealthForm';
 
-const BMRCalculator: React.FC = () => {
-  const { bmrState, activityLevel, calculateBMR, validateCommonForm } = useHealthForm();
+interface BMRCalculatorProps {
+  bmrState: { result: { bmr: number; tdee: number; activity_level: string } | null; loading: boolean; error: string | null };
+  activityLevel: string;
+  calculateBMR: () => Promise<void>;
+  validateCommonForm: () => boolean;
+  hasBmrResult: boolean;
+}
 
+const BMRCalculator: React.FC<BMRCalculatorProps> = ({ bmrState, activityLevel, calculateBMR, validateCommonForm }) => {
   const isValid = validateCommonForm();
 
   return (

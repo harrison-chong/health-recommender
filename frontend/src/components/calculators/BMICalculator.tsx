@@ -1,10 +1,13 @@
 import React from 'react';
 import { Button, CircularProgress, Paper, Typography, Box } from '@mui/material';
-import { useHealthForm } from '../../hooks/useHealthForm';
 
-const BMICalculator: React.FC = () => {
-  const { bmiState, calculateBMI, validateCommonForm } = useHealthForm();
+interface BMICalculatorProps {
+  bmiState: { result: { bmi: number } | null; loading: boolean; error: string | null };
+  calculateBMI: () => Promise<void>;
+  validateCommonForm: () => boolean;
+}
 
+const BMICalculator: React.FC<BMICalculatorProps> = ({ bmiState, calculateBMI, validateCommonForm }) => {
   const getBMICategory = (bmi: number): string => {
     if (bmi < 18.5) return 'Underweight';
     if (bmi < 25) return 'Normal';
