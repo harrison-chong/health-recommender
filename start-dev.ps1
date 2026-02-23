@@ -2,8 +2,12 @@
 # Run this from the root of your repository
 
 # Start backend in background (same terminal, non-blocking)
+# First sync dependencies
+Set-Location backend
+uv sync
+Set-Location ..
 Start-Process -FilePath "uv" -ArgumentList "run fastapi dev" -WorkingDirectory "backend" -NoNewWindow
 
 # Start frontend (Vite) in the current window
-cd frontend
+Set-Location frontend
 npm run dev

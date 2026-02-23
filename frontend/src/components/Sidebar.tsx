@@ -23,7 +23,7 @@ interface SidebarProps {
   handleDrawerToggle: () => void;
 }
 
-const DRAWER_WIDTH = 260;
+export const DRAWER_WIDTH = 260;
 
 const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const theme = useTheme();
@@ -194,4 +194,3 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
 };
 
 export default Sidebar;
-export { DRAWER_WIDTH };

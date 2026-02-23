@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import Home from './components/Home';
-import HealthPage from './components/HealthPage';
+import HealthDashboard from './components/HealthDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 /**
@@ -15,7 +15,7 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Layout><Home /></Layout>} />
-          <Route path="/health" element={<Layout><HealthPage /></Layout>} />
+          <Route path="/health" element={<Layout><HealthDashboard /></Layout>} />
         </Routes>
       </Router>
     </ThemeProvider>
