@@ -112,8 +112,27 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
 
       <Divider />
       <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-start' }}>
-        <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
-          <IconButton onClick={toggleTheme} size="small">
+        <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`} placement="right">
+          <IconButton
+            onClick={toggleTheme}
+            size="small"
+            sx={{
+              p: 1.5,
+              borderRadius: 2,
+              backgroundColor: 'transparent',
+              transition: 'background-color 0.2s ease-in-out',
+              '&:hover': {
+                backgroundColor: mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.08)'
+                  : 'rgba(0, 0, 0, 0.04)',
+              },
+              '& .MuiSvgIcon-root': {
+                fontSize: '1.25rem',
+                color: mode === 'dark' ? theme.palette.primary.main : 'text.primary',
+                transition: 'color 0.3s ease-in-out',
+              },
+            }}
+          >
             {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </Tooltip>
