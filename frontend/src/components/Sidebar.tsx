@@ -9,12 +9,14 @@ import {
   ListItemText,
   Typography,
   Divider,
+  Tooltip,
   useMediaQuery,
   useTheme,
   Drawer,
 } from '@mui/material';
-import { Home as HomeIcon, Assessment as AssessmentIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { Home as HomeIcon, Assessment as AssessmentIcon, Brightness4, Brightness7 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme as useAppTheme } from '../contexts/ThemeContext';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -25,6 +27,7 @@ const DRAWER_WIDTH = 260;
 
 const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const theme = useTheme();
+  const { mode, toggleTheme } = useAppTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
@@ -108,10 +111,31 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
       </List>
 
       <Divider />
-      <Box sx={{ p: 2 }}>
-        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center' }}>
-          Built with AI
-        </Typography>
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-start' }}>
+        <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`} placement="right">
+          <IconButton
+            onClick={toggleTheme}
+            size="small"
+            sx={{
+              p: 1.5,
+              borderRadius: 2,
+              backgroundColor: 'transparent',
+              transition: 'background-color 0.2s ease-in-out',
+              '&:hover': {
+                backgroundColor: mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.08)'
+                  : 'rgba(0, 0, 0, 0.04)',
+              },
+              '& .MuiSvgIcon-root': {
+                fontSize: '1.25rem',
+                color: mode === 'dark' ? theme.palette.primary.main : 'text.primary',
+                transition: 'color 0.3s ease-in-out',
+              },
+            }}
+          >
+            {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+        </Tooltip>
       </Box>
     </Box>
   );
