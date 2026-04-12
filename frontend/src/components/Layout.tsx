@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  CssBaseline,
-} from '@mui/material';
+import { Box, CssBaseline, useTheme } from '@mui/material';
 import Sidebar, { DRAWER_WIDTH } from './Sidebar';
 
 interface LayoutProps {
@@ -11,13 +8,21 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        backgroundColor: isDark ? '#0f172a' : '#f8fafc',
+      }}
+    >
       <CssBaseline />
       <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
@@ -28,7 +33,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           p: { xs: 2, sm: 3, md: 4 },
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
           minHeight: '100vh',
-          backgroundColor: 'background.default',
         }}
       >
         {children}
