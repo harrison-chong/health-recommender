@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Paper, Grid, Button } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import CommonForm from './common/CommonForm';
 import BMICalculator from './calculators/BMICalculator';
 import BMRCalculator from './calculators/BMRCalculator';
@@ -13,6 +13,8 @@ import { useHealthForm } from '../hooks/useHealthForm';
 const HealthDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<CalculatorTab>('bmi');
   const healthForm = useHealthForm();
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   const tabs = CALCULATOR_TABS;
 
@@ -100,37 +102,77 @@ const HealthDashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', py: 2 }}>
-      <Paper elevation={0} sx={{ borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'background.default' }}>
-          <Grid container>
-            {tabs.map((tab) => (
-              <Grid
+    <Box
+      sx={{
+        maxWidth: 900,
+        mx: 'auto',
+        py: 3,
+      }}
+    >
+      {/* Main container */}
+      <Box
+        sx={{
+          borderRadius: 3,
+          overflow: 'hidden',
+          backgroundColor: isDark ? '#1e293b' : '#ffffff',
+          border: '1px solid',
+          borderColor: isDark ? '#334155' : '#e2e8f0',
+          boxShadow: isDark
+            ? '0 4px 16px rgba(0,0,0,0.3)'
+            : '0 2px 8px rgba(0,0,0,0.06)',
+        }}
+      >
+        {/* Tab navigation */}
+        <Box
+          sx={{
+            display: 'flex',
+            overflowX: 'auto',
+            borderBottom: '1px solid',
+            borderColor: isDark ? '#334155' : '#e2e8f0',
+            backgroundColor: isDark ? '#1e293b' : '#ffffff',
+            '&::-webkit-scrollbar': { height: 0 },
+          }}
+        >
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <Button
                 key={tab.id}
-                size={{ xs: 6, sm: 3 }}
-                component="div"
+                onClick={() => setActiveTab(tab.id as CalculatorTab)}
+                sx={{
+                  flex: '1 0 auto',
+                  minWidth: 'max-content',
+                  py: 2,
+                  px: 3,
+                  borderRadius: 0,
+                  fontWeight: isActive ? 600 : 500,
+                  fontSize: '0.85rem',
+                  color: isActive
+                    ? (isDark ? '#60a5fa' : '#2563eb')
+                    : (isDark ? '#94a3b8' : '#64748b'),
+                  backgroundColor: isActive
+                    ? (isDark ? '#1e293b' : '#ffffff')
+                    : 'transparent',
+                  borderBottom: '2px solid',
+                  borderColor: isActive
+                    ? (isDark ? '#3b82f6' : '#2563eb')
+                    : 'transparent',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  '&:hover': {
+                    backgroundColor: isDark ? '#29354a' : '#f8fafc',
+                    color: isDark ? '#cbd5e1' : '#334155',
+                  },
+                }}
               >
-                <Button
-                  fullWidth
-                  onClick={() => setActiveTab(tab.id as CalculatorTab)}
-                  sx={{
-                    py: 2,
-                    borderBottom: 2,
-                    borderColor: activeTab === tab.id ? 'primary.main' : 'transparent',
-                    bgcolor: activeTab === tab.id ? 'background.paper' : 'transparent',
-                    borderRadius: 0,
-                    fontWeight: activeTab === tab.id ? 600 : 400,
-                    color: activeTab === tab.id ? 'primary.main' : 'text.secondary'
-                  }}
-                >
-                  {tab.label}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
+                {tab.label}
+              </Button>
+            );
+          })}
         </Box>
 
-        <Box sx={{ p: 4 }}>
+        {/* Content */}
+        <Box sx={{ p: { xs: 3, md: 4 } }}>
           <CommonForm
             form={healthForm.form}
             activityLevel={healthForm.activityLevel}
@@ -140,7 +182,7 @@ const HealthDashboard: React.FC = () => {
           />
           {renderTabContent()}
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
 };

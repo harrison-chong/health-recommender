@@ -8,13 +8,17 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-  Divider,
   Tooltip,
   useMediaQuery,
   useTheme,
   Drawer,
 } from '@mui/material';
-import { Home as HomeIcon, Assessment as AssessmentIcon, Brightness4, Brightness7 } from '@mui/icons-material';
+import {
+  Home as HomeIcon,
+  Assessment as AssessmentIcon,
+  Brightness4,
+  Brightness7,
+} from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme as useAppTheme } from '../contexts/ThemeContext';
 
@@ -31,44 +35,56 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
+  const isDark = mode === 'dark';
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Health Assessment', icon: <AssessmentIcon />, path: '/health' },
   ];
 
-  const drawerWidth = isMobile ? '100%' : DRAWER_WIDTH;
-
   const drawerContent = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: isDark ? '#1e293b' : '#ffffff',
+        borderRight: '1px solid',
+        borderColor: isDark ? '#334155' : '#e2e8f0',
+      }}
+    >
+      {/* Logo Section */}
       <Box
         sx={{
           p: 3,
           borderBottom: '1px solid',
-          borderColor: 'divider',
+          borderColor: isDark ? '#334155' : '#e2e8f0',
         }}
       >
         <Typography
           variant="h5"
-          component="div"
           sx={{
-            fontWeight: 400,
+            fontWeight: 700,
+            color: isDark ? '#f8fafc' : '#0f172a',
             letterSpacing: '-0.02em',
-            color: 'text.primary',
           }}
         >
-          Health Recommender
+          Vitality
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-          Your personal health advisor
+        <Typography
+          variant="body2"
+          sx={{ color: isDark ? '#94a3b8' : '#64748b', mt: 0.5 }}
+        >
+          Your health compass
         </Typography>
       </Box>
 
-      <List sx={{ flex: 1, p: 2 }}>
+      {/* Navigation */}
+      <List sx={{ flex: 1, px: 2, py: 2 }}>
         {menuItems.map((item) => {
           const isSelected = location.pathname === item.path;
           return (
-            <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
               <ListItemButton
                 selected={isSelected}
                 onClick={() => navigate(item.path)}
@@ -76,22 +92,23 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
                   borderRadius: 2,
                   py: 1.5,
                   px: 2,
-                  backgroundColor: isSelected ? 'rgba(0,0,0,0.08)' : 'transparent',
-                  color: isSelected ? 'primary.main' : 'text.secondary',
+                  cursor: 'pointer',
+                  backgroundColor: isSelected
+                    ? (isDark ? '#334155' : '#eff6ff')
+                    : 'transparent',
+                  color: isSelected
+                    ? (isDark ? '#60a5fa' : '#2563eb')
+                    : (isDark ? '#94a3b8' : '#64748b'),
                   '&:hover': {
-                    backgroundColor: isSelected ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.04)',
-                  },
-                  '&.Mui-selected': {
-                    backgroundColor: 'rgba(0,0,0,0.08)',
-                    '&:hover': {
-                      backgroundColor: 'rgba(0,0,0,0.12)',
-                    },
+                    backgroundColor: isSelected
+                      ? (isDark ? '#334155' : '#dbeafe')
+                      : (isDark ? '#29354a' : '#f1f5f9'),
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
-                    color: isSelected ? 'primary.main' : 'text.secondary',
+                    color: 'inherit',
                     minWidth: 40,
                   }}
                 >
@@ -101,8 +118,9 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
                   primary={
                     <Typography
                       sx={{
-                        fontWeight: isSelected ? 600 : 400,
-                        fontSize: '0.95rem',
+                        fontWeight: isSelected ? 600 : 500,
+                        fontSize: '0.9rem',
+                        color: 'inherit',
                       }}
                     >
                       {item.text}
@@ -115,26 +133,34 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
         })}
       </List>
 
-      <Divider />
-      <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-start' }}>
-        <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`} placement="right">
+      {/* Theme Toggle */}
+      <Box
+        sx={{
+          p: 2,
+          borderTop: '1px solid',
+          borderColor: isDark ? '#334155' : '#e2e8f0',
+        }}
+      >
+        <Tooltip
+          title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
+          placement="right"
+        >
           <IconButton
             onClick={toggleTheme}
-            size="small"
+            size="medium"
             sx={{
               p: 1.5,
               borderRadius: 2,
-              backgroundColor: 'transparent',
-              transition: 'background-color 0.2s ease-in-out',
+              cursor: 'pointer',
+              backgroundColor: isDark ? '#334155' : '#f1f5f9',
+              border: '1px solid',
+              borderColor: isDark ? '#475569' : '#e2e8f0',
               '&:hover': {
-                backgroundColor: mode === 'dark'
-                  ? 'rgba(255, 255, 255, 0.08)'
-                  : 'rgba(0, 0, 0, 0.04)',
+                backgroundColor: isDark ? '#475569' : '#e2e8f0',
               },
               '& .MuiSvgIcon-root': {
                 fontSize: '1.25rem',
-                color: mode === 'dark' ? theme.palette.primary.main : 'text.primary',
-                transition: 'color 0.3s ease-in-out',
+                color: isDark ? '#cbd5e1' : '#475569',
               },
             }}
           >
@@ -148,24 +174,20 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
   return (
     <Box
       component="nav"
-      sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+      sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}
     >
       {isMobile ? (
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
-              width: drawerWidth,
-              borderRight: '1px solid',
-              borderColor: 'divider',
-              backgroundColor: 'background.paper',
+              width: DRAWER_WIDTH,
+              backgroundColor: isDark ? '#1e293b' : '#ffffff',
             },
           }}
         >
@@ -178,10 +200,8 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
             display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
-              width: drawerWidth,
-              borderRight: '1px solid',
-              borderColor: 'divider',
-              backgroundColor: 'background.paper',
+              width: DRAWER_WIDTH,
+              backgroundColor: isDark ? '#1e293b' : '#ffffff',
             },
           }}
           open
