@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import {
   Home as HomeIcon,
-  Assessment as AssessmentIcon,
+  HealthAndSafety as HealthIcon,
   Brightness4,
   Brightness7,
 } from '@mui/icons-material';
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
-    { text: 'Health Assessment', icon: <AssessmentIcon />, path: '/health' },
+    { text: 'Health Assessment', icon: <HealthIcon />, path: '/health' },
   ];
 
   const drawerContent = (
@@ -48,68 +48,111 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: isDark ? '#1e293b' : '#ffffff',
+        backgroundColor: isDark ? '#09090B' : '#FAFAFA',
         borderRight: '1px solid',
-        borderColor: isDark ? '#334155' : '#e2e8f0',
+        borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
       }}
     >
       {/* Logo Section */}
       <Box
         sx={{
-          p: 3,
+          p: 4,
           borderBottom: '1px solid',
-          borderColor: isDark ? '#334155' : '#e2e8f0',
+          borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 700,
-            color: isDark ? '#f8fafc' : '#0f172a',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          Vitality
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: isDark ? '#94a3b8' : '#64748b', mt: 0.5 }}
-        >
-          Your health compass
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Logo mark */}
+          <Box
+            sx={{
+              width: 40,
+              height: 40,
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: isDark
+                ? 'linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(34,211,238,0.1) 100%)'
+                : 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(14,165,233,0.05) 100%)',
+              border: '1px solid',
+              borderColor: isDark ? 'rgba(99,102,241,0.3)' : 'rgba(99,102,241,0.15)',
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M24 4C13 4 6 14 6 24C6 34 13 44 24 44C35 44 42 34 42 24"
+                stroke={isDark ? '#818CF8' : '#6366F1'}
+                strokeWidth="3"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <path
+                d="M24 14C18 14 14 20 14 24C14 28 18 34 24 34C30 34 34 28 34 24"
+                stroke={isDark ? '#22D3EE' : '#0EA5E9'}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <circle cx="24" cy="24" r="3" fill={isDark ? '#818CF8' : '#6366F1'} />
+            </svg>
+          </Box>
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 600,
+                color: isDark ? '#FAFAFA' : '#09090B',
+                letterSpacing: '-0.01em',
+                fontSize: '1.0625rem',
+              }}
+            >
+              Vitality
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{ color: isDark ? '#71717A' : '#A1A1AA', mt: 0.25 }}
+            >
+              AI Health Compass
+            </Typography>
+          </Box>
+        </Box>
       </Box>
 
       {/* Navigation */}
-      <List sx={{ flex: 1, px: 2, py: 2 }}>
+      <List sx={{ flex: 1, px: 2, py: 3 }}>
         {menuItems.map((item) => {
           const isSelected = location.pathname === item.path;
           return (
-            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.75 }}>
               <ListItemButton
                 selected={isSelected}
                 onClick={() => navigate(item.path)}
                 sx={{
-                  borderRadius: 2,
+                  borderRadius: '10px',
                   py: 1.5,
                   px: 2,
                   cursor: 'pointer',
                   backgroundColor: isSelected
-                    ? (isDark ? '#334155' : '#eff6ff')
+                    ? (isDark ? 'rgba(99,102,241,0.15)' : 'rgba(79,70,229,0.08)')
                     : 'transparent',
                   color: isSelected
-                    ? (isDark ? '#60a5fa' : '#2563eb')
-                    : (isDark ? '#94a3b8' : '#64748b'),
+                    ? (isDark ? '#818CF8' : '#4F46E5')
+                    : (isDark ? '#A1A1AA' : '#71717A'),
                   '&:hover': {
                     backgroundColor: isSelected
-                      ? (isDark ? '#334155' : '#dbeafe')
-                      : (isDark ? '#29354a' : '#f1f5f9'),
+                      ? (isDark ? 'rgba(99,102,241,0.2)' : 'rgba(79,70,229,0.12)')
+                      : (isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'),
                   },
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <ListItemIcon
                   sx={{
                     color: 'inherit',
-                    minWidth: 40,
+                    minWidth: 44,
+                    '& .MuiSvgIcon-root': {
+                      fontSize: '1.25rem',
+                    },
                   }}
                 >
                   {item.icon}
@@ -136,37 +179,54 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
       {/* Theme Toggle */}
       <Box
         sx={{
-          p: 2,
+          p: 3,
           borderTop: '1px solid',
-          borderColor: isDark ? '#334155' : '#e2e8f0',
+          borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
         }}
       >
-        <Tooltip
-          title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
-          placement="right"
+        <Box
+          sx={{
+            p: 1.5,
+            borderRadius: '12px',
+            backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
+            border: '1px solid',
+            borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
-          <IconButton
-            onClick={toggleTheme}
-            size="medium"
+          <Typography
+            variant="caption"
             sx={{
-              p: 1.5,
-              borderRadius: 2,
-              cursor: 'pointer',
-              backgroundColor: isDark ? '#334155' : '#f1f5f9',
-              border: '1px solid',
-              borderColor: isDark ? '#475569' : '#e2e8f0',
-              '&:hover': {
-                backgroundColor: isDark ? '#475569' : '#e2e8f0',
-              },
-              '& .MuiSvgIcon-root': {
-                fontSize: '1.25rem',
-                color: isDark ? '#cbd5e1' : '#475569',
-              },
+              color: isDark ? '#A1A1AA' : '#71717A',
+              fontWeight: 500,
+              px: 1,
             }}
           >
-            {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
-        </Tooltip>
+            Theme
+          </Typography>
+          <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`} placement="right">
+            <IconButton
+              onClick={toggleTheme}
+              size="small"
+              sx={{
+                p: 1,
+                borderRadius: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                },
+                '& .MuiSvgIcon-root': {
+                  fontSize: '1.125rem',
+                  color: isDark ? '#A1A1AA' : '#71717A',
+                },
+              }}
+            >
+              {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
     </Box>
   );
@@ -187,7 +247,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: DRAWER_WIDTH,
-              backgroundColor: isDark ? '#1e293b' : '#ffffff',
+              backgroundColor: isDark ? '#09090B' : '#FAFAFA',
             },
           }}
         >
@@ -201,7 +261,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, handleDrawerToggle }) => 
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: DRAWER_WIDTH,
-              backgroundColor: isDark ? '#1e293b' : '#ffffff',
+              backgroundColor: isDark ? '#09090B' : '#FAFAFA',
             },
           }}
           open

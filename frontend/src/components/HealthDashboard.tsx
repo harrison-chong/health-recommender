@@ -104,33 +104,60 @@ const HealthDashboard: React.FC = () => {
   return (
     <Box
       sx={{
-        maxWidth: 900,
+        maxWidth: 960,
         mx: 'auto',
-        py: 3,
+        py: 4,
       }}
     >
+      {/* Header */}
+      <Box sx={{ mb: 5, textAlign: 'center' }}>
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 600,
+            letterSpacing: '-0.025em',
+            mb: 1.5,
+            color: isDark ? '#FAFAFA' : '#09090B',
+          }}
+        >
+          Health Assessment
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            color: isDark ? '#A1A1AA' : '#71717A',
+            maxWidth: 500,
+            mx: 'auto',
+          }}
+        >
+          Enter your measurements to calculate your health metrics and receive AI-powered recommendations.
+        </Typography>
+      </Box>
+
       {/* Main container */}
       <Box
         sx={{
-          borderRadius: 3,
+          borderRadius: '20px',
           overflow: 'hidden',
-          backgroundColor: isDark ? '#1e293b' : '#ffffff',
+          backgroundColor: isDark ? '#18181B' : '#FFFFFF',
           border: '1px solid',
-          borderColor: isDark ? '#334155' : '#e2e8f0',
+          borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
           boxShadow: isDark
-            ? '0 4px 16px rgba(0,0,0,0.3)'
-            : '0 2px 8px rgba(0,0,0,0.06)',
+            ? '0 4px 24px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3)'
+            : '0 4px 16px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02)',
         }}
       >
-        {/* Tab navigation */}
+        {/* Tab navigation - pill style */}
         <Box
           sx={{
             display: 'flex',
             overflowX: 'auto',
+            p: 2,
+            gap: 1,
             borderBottom: '1px solid',
-            borderColor: isDark ? '#334155' : '#e2e8f0',
-            backgroundColor: isDark ? '#1e293b' : '#ffffff',
+            borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
             '&::-webkit-scrollbar': { height: 0 },
+            backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
           }}
         >
           {tabs.map((tab) => {
@@ -140,29 +167,31 @@ const HealthDashboard: React.FC = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as CalculatorTab)}
                 sx={{
-                  flex: '1 0 auto',
+                  flex: '0 0 auto',
                   minWidth: 'max-content',
-                  py: 2,
-                  px: 3,
-                  borderRadius: 0,
+                  py: 1.25,
+                  px: 2.5,
+                  borderRadius: '10px',
                   fontWeight: isActive ? 600 : 500,
-                  fontSize: '0.85rem',
+                  fontSize: '0.8125rem',
                   color: isActive
-                    ? (isDark ? '#60a5fa' : '#2563eb')
-                    : (isDark ? '#94a3b8' : '#64748b'),
+                    ? '#FFFFFF'
+                    : (isDark ? '#A1A1AA' : '#71717A'),
                   backgroundColor: isActive
-                    ? (isDark ? '#1e293b' : '#ffffff')
+                    ? (isDark ? '#6366F1' : '#4F46E5')
                     : 'transparent',
-                  borderBottom: '2px solid',
-                  borderColor: isActive
-                    ? (isDark ? '#3b82f6' : '#2563eb')
-                    : 'transparent',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
+                  boxShadow: isActive
+                    ? (isDark
+                        ? '0 2px 8px rgba(99,102,241,0.3)'
+                        : '0 2px 8px rgba(79,70,229,0.2)')
+                    : 'none',
                   '&:hover': {
-                    backgroundColor: isDark ? '#29354a' : '#f8fafc',
-                    color: isDark ? '#cbd5e1' : '#334155',
+                    backgroundColor: isActive
+                      ? (isDark ? '#7C7FFF' : '#4338CA')
+                      : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'),
                   },
+                  transition: 'all 0.15s ease',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {tab.label}

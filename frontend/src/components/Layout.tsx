@@ -20,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       sx={{
         display: 'flex',
         minHeight: '100vh',
-        backgroundColor: isDark ? '#0f172a' : '#f8fafc',
+        backgroundColor: isDark ? '#09090B' : '#FAFAFA',
       }}
     >
       <CssBaseline />
@@ -30,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: { xs: 2, sm: 3, md: 4 },
+          p: { xs: 3, sm: 4, md: 5 },
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
           minHeight: '100vh',
         }}
