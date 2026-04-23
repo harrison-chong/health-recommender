@@ -31,23 +31,23 @@ const CommonForm: React.FC<CommonFormProps> = ({
   const isDark = theme.palette.mode === 'dark';
 
   return (
-    <Box sx={{ mb: 4 }}>
+    <Box sx={{ mb: 5 }}>
       <Typography
         variant="h5"
         sx={{
-          mb: 1,
+          mb: 0.75,
           fontWeight: 600,
           letterSpacing: '-0.01em',
-          color: isDark ? '#f8fafc' : '#0f172a',
+          color: isDark ? '#FAFAFA' : '#09090B',
         }}
       >
         Basic Information
       </Typography>
       <Typography
         variant="body2"
-        sx={{ mb: 3, color: isDark ? '#94a3b8' : '#64748b' }}
+        sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A' }}
       >
-        Enter your basic measurements to get started
+        Enter your measurements to get started
       </Typography>
 
       <Box
