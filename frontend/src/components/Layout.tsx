@@ -20,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       sx={{
         display: 'flex',
         minHeight: '100vh',
-        backgroundColor: isDark ? '#09090B' : '#FAFAFA',
+        backgroundColor: isDark ? '#161719' : '#FAFAF7',
       }}
     >
       <CssBaseline />
