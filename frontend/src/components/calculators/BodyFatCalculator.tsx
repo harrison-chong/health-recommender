@@ -24,7 +24,7 @@ const BodyFatCalculator: React.FC<BodyFatCalculatorProps> = ({ bodyFatState, for
   return (
     <Box>
       <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388', lineHeight: 1.6 }}>
-        The <strong style={{ color: isDark ? '#F4F4F5' : '#18181B' }}>U.S. Navy method</strong> estimates body fat percentage using circumference measurements. This is an estimation, not a direct measurement.
+        The <strong style={{ color: isDark ? '#F2F1EC' : '#15171A' }}>U.S. Navy method</strong> estimates body fat percentage using circumference measurements. This is an estimation, not a direct measurement.
       </Typography>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 2.5, mb: 3.5 }}>
         <TextField
