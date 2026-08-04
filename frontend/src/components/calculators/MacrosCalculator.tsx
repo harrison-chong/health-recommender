@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, CircularProgress, Paper, Typography, Box, Grid, FormControl, InputLabel, Select, MenuItem, useTheme } from '@mui/material';
+import { Button, CircularProgress, Typography, Box, Grid, FormControl, InputLabel, Select, MenuItem, useTheme } from '@mui/material';
 import { MACROS_GOALS, DIET_TYPES } from '../../config';
+import ResultCard from '../common/ResultCard';
 
 interface MacrosCalculatorProps {
   macrosState: { result: { calories: number; protein_grams: number; carbs_grams: number; fats_grams: number; protein_percentage: number; carbs_percentage: number; fats_percentage: number } | null; loading: boolean; error: string | null };
@@ -14,28 +15,21 @@ interface MacrosCalculatorProps {
 const MacrosCalculator: React.FC<MacrosCalculatorProps> = ({ macrosState, macrosGoal, dietType, calculateMacros, handleSelectChange }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
-
-  const macroColors = {
-    protein: { color: '#6366F1', bg: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(99,102,241,0.1)' },
-    carbs: { color: '#22D3EE', bg: isDark ? 'rgba(34,211,238,0.15)' : 'rgba(34,211,238,0.1)' },
-    fats: { color: '#F59E0B', bg: isDark ? 'rgba(245,158,11,0.15)' : 'rgba(245,158,11,0.1)' },
-  };
+  const signal = isDark ? '#FB923C' : '#F97316';
+  // Ink shades for the three macros — paper-side lighter, two darker greys. No rainbow.
+  const macroShade = { protein: '#FAFAF7', carbs: signal, fats: '#8A857C' };
 
   return (
     <Box>
-      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A', lineHeight: 1.6 }}>
-        Calculate your <strong style={{ color: isDark ? '#F4F4F5' : '#18181B' }}>daily macronutrient targets</strong> based on your TDEE, health goals, and dietary preferences.
+      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388', lineHeight: 1.6 }}>
+        Calculate your <strong style={{ color: isDark ? '#F2F1EC' : '#15171A' }}>daily macronutrient targets</strong> from
+        your TDEE, goal, and diet preference.
       </Typography>
       <Grid container spacing={2.5} sx={{ mb: 3.5 }}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <FormControl fullWidth size="medium">
             <InputLabel>Goal</InputLabel>
-            <Select
-              value={macrosGoal}
-              onChange={handleSelectChange}
-              name="macrosGoal"
-              label="Goal"
-            >
+            <Select value={macrosGoal} onChange={handleSelectChange} name="macrosGoal" label="Goal">
               {MACROS_GOALS.map(goal => (
                 <MenuItem key={goal.value} value={goal.value}>{goal.label}</MenuItem>
               ))}
@@ -45,12 +39,7 @@ const MacrosCalculator: React.FC<MacrosCalculatorProps> = ({ macrosState, macros
         <Grid size={{ xs: 12, sm: 6 }}>
           <FormControl fullWidth size="medium">
             <InputLabel>Diet Type</InputLabel>
-            <Select
-              value={dietType}
-              onChange={handleSelectChange}
-              name="dietType"
-              label="Diet Type"
-            >
+            <Select value={dietType} onChange={handleSelectChange} name="dietType" label="Diet Type">
               {DIET_TYPES.map(diet => (
                 <MenuItem key={diet.value} value={diet.value}>{diet.label}</MenuItem>
               ))}
@@ -64,126 +53,49 @@ const MacrosCalculator: React.FC<MacrosCalculatorProps> = ({ macrosState, macros
         disabled={macrosState.loading}
         fullWidth
         size="large"
-        sx={{
-          mb: 3.5,
-          py: 1.5,
-          fontSize: '0.9375rem',
-          fontWeight: 500,
-        }}
+        sx={{ mb: 0, py: 1.5 }}
       >
-        {macrosState.loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Calculate Macros'}
+        {macrosState.loading ? <CircularProgress size={24} sx={{ color: '#FAFAF7' }} /> : 'Calculate Macros'}
       </Button>
       {macrosState.result && (
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            borderRadius: '16px',
-            backgroundColor: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(79,70,229,0.04)',
-            border: '1px solid',
-            borderColor: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(79,70,229,0.1)',
-          }}
-        >
-          <Typography variant="body2" sx={{ color: isDark ? '#A1A1AA' : '#71717A', mb: 1 }}>
-            Your estimated daily intake
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 4, mt: 1 }}>
-            <Typography
-              variant="h1"
-              sx={{
-                fontWeight: 600,
-                letterSpacing: '-0.03em',
-                color: isDark ? '#FAFAFA' : '#09090B',
-                fontSize: '2.75rem',
-              }}
-            >
+        <ResultCard label="Your daily intake">
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 3 }}>
+            <Typography className="num" sx={{ fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAF7', fontSize: '2.75rem', lineHeight: 1 }}>
               {macrosState.result.calories.toLocaleString()}
             </Typography>
-            <Typography variant="body1" sx={{ color: isDark ? '#A1A1AA' : '#71717A' }}>
-              kcal
-            </Typography>
+            <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.875rem' }}>kcal</Typography>
           </Box>
 
-          <Grid container spacing={3}>
-            {/* Protein */}
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Box
-                sx={{
-                  p: 2.5,
-                  borderRadius: '12px',
-                  backgroundColor: macroColors.protein.bg,
-                  border: '1px solid',
-                  borderColor: isDark ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.15)',
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                  <Box sx={{ width: 10, height: 10, borderRadius: '3px', backgroundColor: macroColors.protein.color }} />
-                  <Typography variant="caption" sx={{ color: isDark ? '#A1A1AA' : '#71717A', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Protein
-                  </Typography>
-                </Box>
-                <Typography variant="h3" sx={{ fontWeight: 600, color: macroColors.protein.color, mb: 0.5 }}>
-                  {macrosState.result.protein_grams}g
-                </Typography>
-                <Typography variant="body2" sx={{ color: isDark ? '#71717A' : '#A1A1AA' }}>
-                  {macrosState.result.protein_percentage}% of calories
-                </Typography>
-              </Box>
-            </Grid>
+          {/* Proportional macro split bar */}
+          <Box sx={{ display: 'flex', gap: '2px', mb: 2 }}>
+            <Box sx={{ height: 8, flex: macrosState.result.protein_percentage, backgroundColor: macroShade.protein }} />
+            <Box sx={{ height: 8, flex: macrosState.result.carbs_percentage, backgroundColor: macroShade.carbs }} />
+            <Box sx={{ height: 8, flex: macrosState.result.fats_percentage, backgroundColor: macroShade.fats }} />
+          </Box>
 
-            {/* Carbs */}
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Box
-                sx={{
-                  p: 2.5,
-                  borderRadius: '12px',
-                  backgroundColor: macroColors.carbs.bg,
-                  border: '1px solid',
-                  borderColor: isDark ? 'rgba(34,211,238,0.2)' : 'rgba(34,211,238,0.15)',
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                  <Box sx={{ width: 10, height: 10, borderRadius: '3px', backgroundColor: macroColors.carbs.color }} />
-                  <Typography variant="caption" sx={{ color: isDark ? '#A1A1AA' : '#71717A', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Carbs
+          <Grid container spacing={2}>
+            {([
+              { label: 'PROTEIN', grams: macrosState.result.protein_grams, pct: macrosState.result.protein_percentage, shade: macroShade.protein },
+              { label: 'CARBS', grams: macrosState.result.carbs_grams, pct: macrosState.result.carbs_percentage, shade: macroShade.carbs },
+              { label: 'FATS', grams: macrosState.result.fats_grams, pct: macrosState.result.fats_percentage, shade: macroShade.fats },
+            ] as const).map((m) => (
+              <Grid size={{ xs: 4 }} key={m.label}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                  <Box sx={{ width: 8, height: 8, backgroundColor: m.shade }} />
+                  <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.6875rem', letterSpacing: '0.1em' }}>
+                    {m.label}
                   </Typography>
                 </Box>
-                <Typography variant="h3" sx={{ fontWeight: 600, color: macroColors.carbs.color, mb: 0.5 }}>
-                  {macrosState.result.carbs_grams}g
+                <Typography className="num" sx={{ fontWeight: 700, color: m.shade, fontSize: '1.5rem', lineHeight: 1 }}>
+                  {m.grams}<Box component="span" sx={{ fontSize: '0.875rem', color: '#8A857C' }}>g</Box>
                 </Typography>
-                <Typography variant="body2" sx={{ color: isDark ? '#71717A' : '#A1A1AA' }}>
-                  {macrosState.result.carbs_percentage}% of calories
+                <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.6875rem', mt: 0.5 }}>
+                  {m.pct}%
                 </Typography>
-              </Box>
-            </Grid>
-
-            {/* Fats */}
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Box
-                sx={{
-                  p: 2.5,
-                  borderRadius: '12px',
-                  backgroundColor: macroColors.fats.bg,
-                  border: '1px solid',
-                  borderColor: isDark ? 'rgba(245,158,11,0.2)' : 'rgba(245,158,11,0.15)',
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                  <Box sx={{ width: 10, height: 10, borderRadius: '3px', backgroundColor: macroColors.fats.color }} />
-                  <Typography variant="caption" sx={{ color: isDark ? '#A1A1AA' : '#71717A', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Fats
-                  </Typography>
-                </Box>
-                <Typography variant="h3" sx={{ fontWeight: 600, color: macroColors.fats.color, mb: 0.5 }}>
-                  {macrosState.result.fats_grams}g
-                </Typography>
-                <Typography variant="body2" sx={{ color: isDark ? '#71717A' : '#A1A1AA' }}>
-                  {macrosState.result.fats_percentage}% of calories
-                </Typography>
-              </Box>
-            </Grid>
+              </Grid>
+            ))}
           </Grid>
-        </Paper>
+        </ResultCard>
       )}
     </Box>
   );
