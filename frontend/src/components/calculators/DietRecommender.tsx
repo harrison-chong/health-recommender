@@ -1,5 +1,6 @@
 import React, { FormEvent } from 'react';
-import { Button, CircularProgress, Paper, Typography, Box, Grid, TextField, MenuItem, useTheme } from '@mui/material';
+import { Button, CircularProgress, Typography, Box, Grid, TextField, MenuItem, useTheme } from '@mui/material';
+import ResultCard from '../common/ResultCard';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ReactMarkdown from 'react-markdown';
 
@@ -24,7 +25,7 @@ const DietRecommender: React.FC<DietRecommenderProps> = ({ dietState, form, hand
 
   return (
     <Box component="form" onSubmit={getDietRecommendation}>
-      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A', lineHeight: 1.6 }}>
+      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388', lineHeight: 1.6 }}>
         The diet recommender analyses your fitness level, occupation, sleep patterns, and goals to generate a personalised nutrition plan.
       </Typography>
       <Grid container spacing={2.5} sx={{ mb: 3.5 }}>
@@ -100,109 +101,44 @@ const DietRecommender: React.FC<DietRecommenderProps> = ({ dietState, form, hand
           fontWeight: 500,
         }}
       >
-        {dietState.loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Get Diet Recommendation'}
+        {dietState.loading ? <CircularProgress size={24} sx={{ color: '#FAFAF7' }} /> : 'Get Diet Recommendation'}
       </Button>
       {dietState.result && (
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            borderRadius: '16px',
-            backgroundColor: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(79,70,229,0.04)',
-            border: '1px solid',
-            borderColor: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(79,70,229,0.1)',
-          }}
-        >
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: isDark ? '#FAFAFA' : '#09090B' }}>
-            Your Personalised Diet Plan
+        <ResultCard label="Your nutrition plan">
+          <Typography sx={{ mb: 3, fontWeight: 600, color: '#FAFAF7', fontSize: '1.125rem' }}>
+            Personalised Nutrition Plan
           </Typography>
           <Box
+            className="num"
             sx={{
               maxHeight: 420,
               overflow: 'auto',
               p: 3,
-              borderRadius: '12px',
-              backgroundColor: isDark ? '#09090B' : '#FAFAFA',
-              border: '1px solid',
-              borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+              borderRadius: '2px',
+              backgroundColor: 'rgba(0,0,0,0.25)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              '&::-webkit-scrollbar': { width: 6 },
+              '&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(255,255,255,0.15)' },
             }}
           >
             <ReactMarkdown
               components={{
-                h1: ({ children, ...props }) => (
-                  <Typography variant="h4" component="h1" sx={{ mb: 2, fontWeight: 600, color: isDark ? '#FAFAFA' : '#09090B' }} {...props as any}>
-                    {children}
-                  </Typography>
-                ),
-                h2: ({ children, ...props }) => (
-                  <Typography variant="h5" component="h2" sx={{ mb: 2, fontWeight: 600, color: isDark ? '#F4F4F5' : '#18181B' }} {...props as any}>
-                    {children}
-                  </Typography>
-                ),
-                h3: ({ children, ...props }) => (
-                  <Typography variant="h6" component="h3" sx={{ mb: 1.5, fontWeight: 600, color: isDark ? '#E4E4E7' : '#27272A' }} {...props as any}>
-                    {children}
-                  </Typography>
-                ),
-                p: ({ children, ...props }) => (
-                  <Typography component="p" sx={{ mb: 2, lineHeight: 1.7, color: isDark ? '#D4D4D8' : '#52525B' }} {...props as any}>
-                    {children}
-                  </Typography>
-                ),
-                strong: ({ children, ...props }) => (
-                  <strong style={{ fontWeight: 600, color: isDark ? '#FAFAFA' : '#18181B' }} {...props as any}>
-                    {children}
-                  </strong>
-                ),
-                em: ({ children, ...props }) => (
-                  <em style={{ fontStyle: 'italic', color: isDark ? '#A1A1AA' : '#71717A' }} {...props as any}>
-                    {children}
-                  </em>
-                ),
-                code: ({ children, ...props }) => (
-                  <code
-                    style={{
-                      backgroundColor: isDark ? 'rgba(34,211,238,0.15)' : 'rgba(14,165,233,0.1)',
-                      padding: '0.2em 0.4em',
-                      borderRadius: '4px',
-                      fontFamily: 'monospace',
-                      fontSize: '0.875em',
-                      color: isDark ? '#22D3EE' : '#0891B2',
-                    }}
-                    {...props as any}
-                  >
+                h1: ({ children }) => <Typography variant="h4" component="h1" sx={{ mb: 2, fontWeight: 700, color: '#FAFAF7' }}>{children}</Typography>,
+                h2: ({ children }) => <Typography variant="h5" component="h2" sx={{ mb: 2, fontWeight: 600, color: '#FAFAF7' }}>{children}</Typography>,
+                h3: ({ children }) => <Typography variant="h6" component="h3" sx={{ mb: 1.5, mt: 2, fontWeight: 600, color: isDark ? '#FB923C' : '#F97316' }}>{children}</Typography>,
+                p: ({ children }) => <Typography component="p" sx={{ mb: 1.5, lineHeight: 1.7, color: '#D4D2CC' }}>{children}</Typography>,
+                strong: ({ children }) => <strong style={{ fontWeight: 700, color: '#FAFAF7' }}>{children}</strong>,
+                em: ({ children }) => <em style={{ fontStyle: 'italic', color: '#8A857C' }}>{children}</em>,
+                code: ({ children }) => (
+                  <code style={{ backgroundColor: 'rgba(249,115,22,0.15)', padding: '0.15em 0.4em', borderRadius: '2px', fontFamily: '"Space Mono", monospace', fontSize: '0.85em', color: isDark ? '#FB923C' : '#F97316' }}>
                     {children}
                   </code>
                 ),
-                ul: ({ children, ...props }) => (
-                  <Box component="ul" sx={{ mb: 2, pl: 3, '& li': { mb: 0.75 } }} {...props as any}>
-                    {children}
-                  </Box>
-                ),
-                ol: ({ children, ...props }) => (
-                  <Box component="ol" sx={{ mb: 2, pl: 3, '& li': { mb: 0.75 } }} {...props as any}>
-                    {children}
-                  </Box>
-                ),
-                li: ({ children, ...props }) => (
-                  <Typography component="li" sx={{ lineHeight: 1.6, color: isDark ? '#D4D4D8' : '#52525B' }} {...props as any}>
-                    {children}
-                  </Typography>
-                ),
-                pre: ({ children, ...props }) => (
-                  <Box
-                    component="pre"
-                    sx={{
-                      backgroundColor: isDark ? '#18181B' : '#F4F4F5',
-                      p: 2,
-                      borderRadius: '8px',
-                      overflow: 'auto',
-                      mb: 2,
-                      border: '1px solid',
-                      borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-                    }}
-                    {...props as any}
-                  >
+                ul: ({ children }) => <Box component="ul" sx={{ mb: 2, pl: 3, '& li': { mb: 0.5 } }}>{children}</Box>,
+                ol: ({ children }) => <Box component="ol" sx={{ mb: 2, pl: 3, '& li': { mb: 0.5 } }}>{children}</Box>,
+                li: ({ children }) => <Typography component="li" sx={{ lineHeight: 1.6, color: '#D4D2CC' }}>{children}</Typography>,
+                pre: ({ children }) => (
+                  <Box component="pre" sx={{ backgroundColor: 'rgba(0,0,0,0.3)', p: 2, borderRadius: '2px', overflow: 'auto', mb: 2, border: '1px solid rgba(255,255,255,0.06)' }}>
                     {children}
                   </Box>
                 ),
@@ -218,15 +154,10 @@ const DietRecommender: React.FC<DietRecommenderProps> = ({ dietState, form, hand
               onClick={copyDietRecommendation}
               startIcon={<ContentCopy />}
               sx={{
-                textTransform: 'none',
-                fontWeight: 500,
-                borderRadius: '10px',
-                borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
-                color: isDark ? '#A1A1AA' : '#71717A',
-                '&:hover': {
-                  borderColor: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)',
-                  backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)',
-                },
+                borderRadius: '2px',
+                borderColor: 'rgba(255,255,255,0.2)',
+                color: '#FAFAF7',
+                '&:hover': { borderColor: '#FAFAF7', backgroundColor: 'rgba(255,255,255,0.05)' },
                 px: 3,
                 py: 1,
               }}
@@ -234,7 +165,7 @@ const DietRecommender: React.FC<DietRecommenderProps> = ({ dietState, form, hand
               Copy to Clipboard
             </Button>
           </Box>
-        </Paper>
+        </ResultCard>
       )}
     </Box>
   );
