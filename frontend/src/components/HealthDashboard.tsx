@@ -102,62 +102,42 @@ const HealthDashboard: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 960,
-        mx: 'auto',
-        py: 4,
-      }}
-    >
+    <Box sx={{ maxWidth: 960, mx: 'auto', py: { xs: 3, md: 5 } }}>
       {/* Header */}
       <Box sx={{ mb: 5, textAlign: 'center' }}>
         <Typography
           variant="h2"
-          sx={{
-            fontWeight: 600,
-            letterSpacing: '-0.025em',
-            mb: 1.5,
-            color: isDark ? '#FAFAFA' : '#09090B',
-          }}
+          sx={{ fontWeight: 700, letterSpacing: '-0.02em', mb: 1.5, color: isDark ? '#F2F1EC' : '#15171A' }}
         >
           Health Assessment
         </Typography>
         <Typography
           variant="body1"
-          sx={{
-            color: isDark ? '#A1A1AA' : '#71717A',
-            maxWidth: 500,
-            mx: 'auto',
-          }}
+          sx={{ color: isDark ? '#8A857C' : '#9A9388', maxWidth: 500, mx: 'auto' }}
         >
-          Enter your measurements to calculate your health metrics and receive AI-powered recommendations.
+          Enter your measurements to calculate your metrics and get a workout and nutrition plan.
         </Typography>
       </Box>
 
-      {/* Main container */}
+      {/* Main container — flat paper panel, 2px radius, hairline border */}
       <Box
         sx={{
-          borderRadius: '20px',
-          overflow: 'hidden',
-          backgroundColor: isDark ? '#18181B' : '#FFFFFF',
+          borderRadius: '2px',
+          backgroundColor: isDark ? '#1E1F22' : '#FFFFFF',
           border: '1px solid',
-          borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-          boxShadow: isDark
-            ? '0 4px 24px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3)'
-            : '0 4px 16px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02)',
+          borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#E3E0D8',
         }}
       >
-        {/* Tab navigation - pill style */}
+        {/* Tab strip — flat row, ink underline indicator */}
         <Box
           sx={{
             display: 'flex',
             overflowX: 'auto',
-            p: 2,
-            gap: 1,
+            px: 1,
+            gap: 0.5,
             borderBottom: '1px solid',
-            borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+            borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#E3E0D8',
             '&::-webkit-scrollbar': { height: 0 },
-            backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
           }}
         >
           {tabs.map((tab) => {
@@ -169,28 +149,20 @@ const HealthDashboard: React.FC = () => {
                 sx={{
                   flex: '0 0 auto',
                   minWidth: 'max-content',
-                  py: 1.25,
-                  px: 2.5,
-                  borderRadius: '10px',
-                  fontWeight: isActive ? 600 : 500,
+                  py: 1.5,
+                  px: 2,
+                  borderRadius: 0,
+                  fontWeight: isActive ? 700 : 500,
                   fontSize: '0.8125rem',
-                  color: isActive
-                    ? '#FFFFFF'
-                    : (isDark ? '#A1A1AA' : '#71717A'),
-                  backgroundColor: isActive
-                    ? (isDark ? '#6366F1' : '#4F46E5')
-                    : 'transparent',
-                  boxShadow: isActive
-                    ? (isDark
-                        ? '0 2px 8px rgba(99,102,241,0.3)'
-                        : '0 2px 8px rgba(79,70,229,0.2)')
-                    : 'none',
+                  color: isActive ? (isDark ? '#F2F1EC' : '#15171A') : (isDark ? '#8A857C' : '#9A9388'),
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none',
+                  borderBottom: '2px solid',
+                  borderColor: isActive ? (isDark ? '#F2F1EC' : '#15171A') : 'transparent',
                   '&:hover': {
-                    backgroundColor: isActive
-                      ? (isDark ? '#7C7FFF' : '#4338CA')
-                      : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'),
+                    backgroundColor: 'transparent',
+                    color: isDark ? '#F2F1EC' : '#15171A',
                   },
-                  transition: 'all 0.15s ease',
                   whiteSpace: 'nowrap',
                 }}
               >
