@@ -38,3 +38,9 @@ To run the frontend and backend, in the root repository:
 ```ps1
 start-dev.ps1
 ```
+
+Or, on macOS/Linux:
+
+```bash
+./start-dev.sh
+```
