@@ -94,7 +94,7 @@ const buildComponents = (p: {
       contained: {
         backgroundColor: p.ink,
         color: p.onInk,
-        // ponytail: #2A2D31 is a hand-derived darken of ink (#15171A); lift to a token if more hover states need it.
+        // #2A2D31 is a hand-derived darken of ink (#15171A); lift to a token if more hover states need it.
         '&:hover': { backgroundColor: p.isDark ? '#000000' : '#2A2D31' },
         '&.Mui-disabled': { backgroundColor: p.rule, color: p.muted },
       },
@@ -129,7 +129,7 @@ const buildComponents = (p: {
       root: { borderRadius: '2px', fontWeight: 600, fontFamily: FONT_MONO, fontSize: '0.75rem' },
     },
   },
-  // ponytail: severity (success/warning/error) colors are intentionally neutralized —
+  // severity (success/warning/error) colors are intentionally neutralized —
   // status uses the signal-orange token globally, never MUI's default green/red.
   MuiAlert: {
     styleOverrides: { root: { borderRadius: '2px', fontSize: '0.875rem', border: `1px solid ${p.rule}` } },
