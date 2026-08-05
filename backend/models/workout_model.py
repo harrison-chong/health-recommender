@@ -1,7 +1,7 @@
 from common.api_types import HealthData
 from common.config import config
 from common.client import client
-from common.utils import render_template
+from common.utils import render_template, build_human_metrics
 
 from models.abstract_model import AbstractModel
 
@@ -22,19 +22,7 @@ class WorkoutModel(AbstractModel):
         Returns:
             str: AI-generated recommendation string.
         """
-        # Construct human metrics string
-        goals: str | None = data.goals or "None"
-        body_fat = (
-            f"{data.body_fat_percentage}%"
-            if data.body_fat_percentage is not None
-            else "Not provided"
-        )
-        human_metrics = (
-            f"Age: {data.age}, Weight: {data.weight}kg, Height: {data.height}cm, "
-            f"Fitness Level: {data.fitness_level}, Gender: {data.gender}, "
-            f"Occupation: {data.occupation}, Average Sleep: {data.average_sleep_hours} hours, "
-            f"Body Fat: {body_fat}, Goals: {goals}"
-        )
+        human_metrics = build_human_metrics(data)
 
         # Render template using the general utility function
         # Provide the relative path to the template for loading from the prompts directory

@@ -93,7 +93,6 @@ class BodyFatModel(AbstractModel):
 
 
 if __name__ == "__main__":
-    # ponytail: one self-check per formula against a known-good reference value.
     # If the coefficients drift, these asserts fail. Run: python -m models.bodyfat_model
     from common.api_types import BodyFatInput
 
