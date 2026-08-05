@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, CircularProgress, Paper, Typography, Box, useTheme } from '@mui/material';
+import { Button, CircularProgress, Typography, Box, useTheme } from '@mui/material';
+import ResultCard from '../common/ResultCard';
 
 interface BMICalculatorProps {
   bmiState: { result: { bmi: number } | null; loading: boolean; error: string | null };
@@ -10,20 +11,21 @@ interface BMICalculatorProps {
 const BMICalculator: React.FC<BMICalculatorProps> = ({ bmiState, calculateBMI, validateCommonForm }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
-
-  const getBMICategory = (bmi: number): { label: string; color: string; bgColor: string } => {
-    if (bmi < 18.5) return { label: 'Underweight', color: '#F59E0B', bgColor: 'rgba(245,158,11,0.1)' };
-    if (bmi < 25) return { label: 'Normal', color: '#10B981', bgColor: 'rgba(16,185,129,0.1)' };
-    if (bmi < 30) return { label: 'Overweight', color: '#F97316', bgColor: 'rgba(249,115,22,0.1)' };
-    return { label: 'Obese', color: '#EF4444', bgColor: 'rgba(239,68,68,0.1)' };
-  };
-
   const isValid = validateCommonForm();
+
+  // Status uses the orange signal for the band you land in; ranges in mono.
+  const getCategory = (bmi: number): { label: string; range: string } => {
+    if (bmi < 18.5) return { label: 'UNDERWEIGHT', range: '< 18.5' };
+    if (bmi < 25) return { label: 'NORMAL', range: '18.5 — 24.9' };
+    if (bmi < 30) return { label: 'OVERWEIGHT', range: '25.0 — 29.9' };
+    return { label: 'OBESE', range: '≥ 30.0' };
+  };
 
   return (
     <Box>
-      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A', lineHeight: 1.6 }}>
-        Body Mass Index (BMI) estimates body fat using height and weight ratio. Use it as a general screening tool for weight categories.
+      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388', lineHeight: 1.6 }}>
+        Body Mass Index (BMI) estimates body fat from your height-to-weight ratio. It's a general
+        screening tool for weight categories, not a direct measure of body composition.
       </Typography>
       <Button
         variant="contained"
@@ -31,80 +33,46 @@ const BMICalculator: React.FC<BMICalculatorProps> = ({ bmiState, calculateBMI, v
         disabled={bmiState.loading || !isValid}
         fullWidth
         size="large"
-        sx={{
-          mb: 3.5,
-          py: 1.5,
-          fontSize: '0.9375rem',
-          fontWeight: 500,
-        }}
+        sx={{ mb: 0, py: 1.5 }}
       >
-        {bmiState.loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Calculate BMI'}
+        {bmiState.loading ? <CircularProgress size={24} sx={{ color: '#FAFAF7' }} /> : 'Calculate BMI'}
       </Button>
       {bmiState.result && (() => {
-        const category = getBMICategory(bmiState.result.bmi);
+        const bmi = bmiState.result.bmi;
+        const category = getCategory(bmi);
         return (
-          <Paper
-            elevation={0}
-            sx={{
-              p: 4,
-              borderRadius: '16px',
-              backgroundColor: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(79,70,229,0.04)',
-              border: '1px solid',
-              borderColor: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(79,70,229,0.1)',
-            }}
-          >
-            <Typography variant="body2" sx={{ color: isDark ? '#A1A1AA' : '#71717A', mb: 1.5 }}>
-              Your BMI result
-            </Typography>
+          <ResultCard label="Your BMI result">
             <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 2 }}>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontWeight: 600,
-                  letterSpacing: '-0.03em',
-                  color: isDark ? '#FAFAFA' : '#09090B',
-                  fontSize: '3.5rem',
-                }}
-              >
-                {bmiState.result.bmi.toFixed(1)}
+              <Typography className="num" sx={{ fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAF7', fontSize: '3.5rem', lineHeight: 1 }}>
+                {bmi.toFixed(1)}
               </Typography>
-              <Typography variant="body1" sx={{ color: isDark ? '#A1A1AA' : '#71717A' }}>
+              <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.875rem' }}>
                 kg/m²
               </Typography>
             </Box>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 2,
-                py: 1,
-                borderRadius: '8px',
-                backgroundColor: category.bgColor,
-              }}
-            >
-              <Box
-                sx={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  backgroundColor: category.color,
-                }}
-              />
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  color: category.color,
-                  fontSize: '0.875rem',
-                }}
-              >
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{ width: 8, height: 8, backgroundColor: isDark ? '#FB923C' : '#F97316' }} />
+              <Typography className="num" sx={{ fontWeight: 700, color: isDark ? '#FB923C' : '#F97316', fontSize: '0.875rem', letterSpacing: '0.04em' }}>
                 {category.label}
               </Typography>
+              <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.75rem', ml: 'auto' }}>
+                {category.range}
+              </Typography>
             </Box>
-            <Typography variant="caption" display="block" sx={{ mt: 3, color: isDark ? '#71717A' : '#A1A1AA' }}>
-              Based on World Health Organization (WHO) classification
+
+            {/* Range bar: BMI bands 18.5 / 6.5 / 5 / open */}
+            <Box sx={{ mt: 2, display: 'flex', gap: '2px' }}>
+              <Box sx={{ height: 4, flex: 18.5, backgroundColor: 'rgba(255,255,255,0.1)' }} />
+              <Box sx={{ height: 4, flex: 6.5, backgroundColor: isDark ? '#FB923C' : '#F97316' }} />
+              <Box sx={{ height: 4, flex: 5, backgroundColor: 'rgba(255,255,255,0.1)' }} />
+              <Box sx={{ height: 4, flex: 10, backgroundColor: 'rgba(255,255,255,0.1)' }} />
+            </Box>
+
+            <Typography className="num" sx={{ display: 'block', mt: 3, color: '#8A857C', fontSize: '0.6875rem', letterSpacing: '0.08em' }}>
+              BASED ON WHO CLASSIFICATION
             </Typography>
-          </Paper>
+          </ResultCard>
         );
       })()}
     </Box>

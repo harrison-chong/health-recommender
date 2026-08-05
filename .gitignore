@@ -31,3 +31,5 @@ build
 Thumbs.db
 
 .claude
+# Visual brainstorming mockups
+.superpowers/

@@ -38,14 +38,14 @@ const CommonForm: React.FC<CommonFormProps> = ({
           mb: 0.75,
           fontWeight: 600,
           letterSpacing: '-0.01em',
-          color: isDark ? '#FAFAFA' : '#09090B',
+          color: isDark ? '#F2F1EC' : '#15171A',
         }}
       >
         Basic Information
       </Typography>
       <Typography
         variant="body2"
-        sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A' }}
+        sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388' }}
       >
         Enter your measurements to get started
       </Typography>

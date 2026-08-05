@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, CircularProgress, Paper, Typography, Box, Grid, TextField, useTheme } from '@mui/material';
+import { Button, CircularProgress, Typography, Box, Grid, TextField, useTheme } from '@mui/material';
+import ResultCard from '../common/ResultCard';
 
 interface BodyFatCalculatorProps {
   bodyFatState: { result: { body_fat_percentage: number; category: string } | null; loading: boolean; error: string | null };
@@ -22,8 +23,8 @@ const BodyFatCalculator: React.FC<BodyFatCalculatorProps> = ({ bodyFatState, for
 
   return (
     <Box>
-      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#A1A1AA' : '#71717A', lineHeight: 1.6 }}>
-        The <strong style={{ color: isDark ? '#F4F4F5' : '#18181B' }}>U.S. Navy method</strong> estimates body fat percentage using circumference measurements. This is an estimation, not a direct measurement.
+      <Typography variant="body2" sx={{ mb: 3.5, color: isDark ? '#8A857C' : '#9A9388', lineHeight: 1.6 }}>
+        The <strong style={{ color: isDark ? '#F2F1EC' : '#15171A' }}>U.S. Navy method</strong> estimates body fat percentage using circumference measurements. This is an estimation, not a direct measurement.
       </Typography>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 2.5, mb: 3.5 }}>
         <TextField
@@ -81,56 +82,35 @@ const BodyFatCalculator: React.FC<BodyFatCalculatorProps> = ({ bodyFatState, for
           fontWeight: 500,
         }}
       >
-        {bodyFatState.loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Estimate Body Fat'}
+        {bodyFatState.loading ? <CircularProgress size={24} sx={{ color: '#FAFAF7' }} /> : 'Estimate Body Fat'}
       </Button>
       {bodyFatState.result && (
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            borderRadius: '16px',
-            backgroundColor: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(79,70,229,0.04)',
-            border: '1px solid',
-            borderColor: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(79,70,229,0.1)',
-          }}
-        >
-          <Typography variant="body2" sx={{ color: isDark ? '#A1A1AA' : '#71717A', mb: 3 }}>
-            Estimated body fat percentage
-          </Typography>
+        <ResultCard label="Estimated body fat">
           <Grid container spacing={4}>
-            <Grid size={{ xs: 6 }}>
-              <Typography variant="caption" sx={{ color: isDark ? '#71717A' : '#A1A1AA', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Body Fat
+            <Grid size={{ xs: 7 }}>
+              <Typography className="num" sx={{ fontSize: '0.6875rem', letterSpacing: '0.12em', color: '#8A857C', mb: 1 }}>
+                BODY FAT
               </Typography>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: 600,
-                  letterSpacing: '-0.02em',
-                  color: isDark ? '#FAFAFA' : '#09090B',
-                  mt: 0.5,
-                }}
-              >
-                {bodyFatState.result.body_fat_percentage.toFixed(1)}%
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                <Typography className="num" sx={{ fontWeight: 700, letterSpacing: '-0.02em', color: '#FAFAF7', fontSize: '2.5rem', lineHeight: 1 }}>
+                  {bodyFatState.result.body_fat_percentage.toFixed(1)}
+                </Typography>
+                <Typography className="num" sx={{ color: '#8A857C', fontSize: '0.875rem' }}>%</Typography>
+              </Box>
             </Grid>
-            <Grid size={{ xs: 6 }}>
-              <Typography variant="caption" sx={{ color: isDark ? '#71717A' : '#A1A1AA', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Category
+            <Grid size={{ xs: 5 }}>
+              <Typography className="num" sx={{ fontSize: '0.6875rem', letterSpacing: '0.12em', color: isDark ? '#FB923C' : '#F97316', mb: 1 }}>
+                CATEGORY
               </Typography>
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: 600,
-                  color: isDark ? '#22D3EE' : '#0891B2',
-                  mt: 0.5,
-                }}
-              >
+              <Typography sx={{ fontWeight: 600, color: isDark ? '#FB923C' : '#F97316', fontSize: '1.25rem', lineHeight: 1.2 }}>
                 {bodyFatState.result.category}
               </Typography>
             </Grid>
           </Grid>
-        </Paper>
+          <Typography className="num" sx={{ display: 'block', mt: 3, color: '#8A857C', fontSize: '0.6875rem', letterSpacing: '0.08em' }}>
+            U.S. NAVY METHOD · ESTIMATION ONLY
+          </Typography>
+        </ResultCard>
       )}
     </Box>
   );
