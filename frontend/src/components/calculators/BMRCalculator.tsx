@@ -7,7 +7,6 @@ interface BMRCalculatorProps {
   activityLevel: string;
   calculateBMR: () => Promise<void>;
   validateCommonForm: () => boolean;
-  hasBmrResult: boolean;
 }
 
 const BMRCalculator: React.FC<BMRCalculatorProps> = ({ bmrState, calculateBMR, validateCommonForm }) => {

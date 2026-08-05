@@ -9,7 +9,6 @@ interface MacrosCalculatorProps {
   dietType: string;
   calculateMacros: () => Promise<void>;
   handleSelectChange: (e: { target: { name: string; value: string } }) => void;
-  hasBmrResult: boolean;
 }
 
 const MacrosCalculator: React.FC<MacrosCalculatorProps> = ({ macrosState, macrosGoal, dietType, calculateMacros, handleSelectChange }) => {

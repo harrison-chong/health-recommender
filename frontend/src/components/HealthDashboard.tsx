@@ -35,7 +35,6 @@ const HealthDashboard: React.FC = () => {
             activityLevel={healthForm.activityLevel}
             calculateBMR={healthForm.calculateBMR}
             validateCommonForm={healthForm.validateCommonForm}
-            hasBmrResult={healthForm.hasBmrResult}
           />
         );
       case 'bodyfat':
@@ -58,7 +57,6 @@ const HealthDashboard: React.FC = () => {
           <MacrosCalculator
             macrosState={healthForm.macrosState}
             calculateMacros={healthForm.calculateMacros}
-            hasBmrResult={healthForm.hasBmrResult}
             macrosGoal={healthForm.macrosGoal}
             dietType={healthForm.dietType}
             handleSelectChange={healthForm.handleSelectChange}
