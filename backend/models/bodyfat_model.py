@@ -53,7 +53,7 @@ class BodyFatModel(AbstractModel):
             log_height = math.log10(height)
             denominator = 1.0324 - 0.19077 * log_waist_neck + 0.15456 * log_height
         elif gender == "female":
-            # Female formula: BF% = 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.15400 * log10(height)) - 450
+            # Female formula: BF% = 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.22100 * log10(height)) - 450
             if hip is None:
                 raise ValueError("Hip measurement is required for females")
             if waist + hip <= neck:
@@ -62,7 +62,7 @@ class BodyFatModel(AbstractModel):
                 )
             log_waist_hip_neck = math.log10(waist + hip - neck)
             log_height = math.log10(height)
-            denominator = 1.29579 - 0.35004 * log_waist_hip_neck + 0.15400 * log_height
+            denominator = 1.29579 - 0.35004 * log_waist_hip_neck + 0.22100 * log_height
         else:
             raise ValueError("Gender must be 'male' or 'female'")
 
@@ -90,3 +90,25 @@ class BodyFatModel(AbstractModel):
             if min_val <= body_fat < max_val:
                 return label
         return "Unknown"
+
+
+if __name__ == "__main__":
+    # ponytail: one self-check per formula against a known-good reference value.
+    # If the coefficients drift, these asserts fail. Run: python -m models.bodyfat_model
+    from common.api_types import BodyFatInput
+
+    model = BodyFatModel()
+
+    # Male (82/38/175): published U.S. Navy metric formula → 14.5%
+    male = model.execute(BodyFatInput(age=30, gender="male", height=175, waist=82, neck=38))
+    assert abs(male["body_fat_percentage"] - 14.5) < 0.1, male
+
+    # Female (78/96/34.5/165): published metric formula → ~28.2% (healthy range,
+    # not the 100% clamp the pre-fix 0.15400 coefficient produced).
+    female = model.execute(
+        BodyFatInput(age=30, gender="female", height=165, waist=78, neck=34.5, hip=96)
+    )
+    assert abs(female["body_fat_percentage"] - 28.2) < 0.1, female
+
+    print("bodyfat_model self-checks passed")
+
